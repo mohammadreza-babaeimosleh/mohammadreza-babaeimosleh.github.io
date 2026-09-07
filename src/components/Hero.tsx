@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Reveal from "./Reveal";
 import Spotlight from "./Spotlight";
+import CircuitBackground from "./CircuitBackground";
+import TextScramble from "./TextScramble";
 
 const STATS = [
   { value: "3+", label: "Work Experience" },
@@ -14,6 +16,7 @@ export default function Hero() {
       id="top"
       className="relative overflow-hidden border-b border-border"
     >
+      <CircuitBackground />
       <Spotlight className="w-full">
         <div className="mx-auto grid max-w-6xl gap-12 px-6 py-20 md:grid-cols-[1.3fr_1fr] md:py-28">
           <Reveal>
@@ -23,9 +26,12 @@ export default function Hero() {
               Positions
             </p>
             <h1 className="font-display text-5xl font-bold leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl">
-              Mohammad Reza
-              <br />
-              Babaei Mosleh
+              <TextScramble text="Mohammad Reza" className="block" />
+              <TextScramble
+                text="Babaei Mosleh"
+                className="block"
+                startDelay={150}
+              />
             </h1>
             <p className="mt-6 max-w-xl text-lg text-muted-foreground">
               ML engineer &amp; researcher building AI systems that ship — from

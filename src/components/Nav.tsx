@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Command } from "lucide-react";
 
 const LINKS = [
   { href: "#about", label: "About" },
@@ -32,6 +33,15 @@ export default function Nav() {
               {link.label}
             </a>
           ))}
+          <button
+            onClick={() =>
+              window.dispatchEvent(new Event("open-command-palette"))
+            }
+            aria-label="Open command palette"
+            className="electric-border flex items-center gap-1.5 border border-border px-3 py-2 font-mono text-[11px] uppercase tracking-widest text-muted-foreground transition-colors hover:border-foreground hover:text-foreground"
+          >
+            <Command size={12} />K
+          </button>
           <a
             href="/Mohammad-Reza-Babaei-Mosleh-CV.pdf"
             className="electric-border border border-accent px-4 py-2 font-mono text-xs uppercase tracking-widest text-accent transition-colors hover:bg-accent hover:text-accent-foreground"
@@ -71,6 +81,15 @@ export default function Nav() {
               {link.label}
             </a>
           ))}
+          <button
+            onClick={() => {
+              setOpen(false);
+              window.dispatchEvent(new Event("open-command-palette"));
+            }}
+            className="border-b border-border px-6 py-4 text-left font-mono text-sm uppercase tracking-widest text-muted-foreground"
+          >
+            Search (&#8984;K)
+          </button>
           <a
             href="/Mohammad-Reza-Babaei-Mosleh-CV.pdf"
             className="px-6 py-4 font-mono text-sm uppercase tracking-widest text-accent"

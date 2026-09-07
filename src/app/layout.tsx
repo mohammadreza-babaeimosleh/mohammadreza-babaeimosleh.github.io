@@ -6,6 +6,7 @@ import "@fontsource/jetbrains-mono/500.css";
 import "@fontsource/jetbrains-mono/700.css";
 import "./globals.css";
 import Nav from "@/components/Nav";
+import CommandPalette from "@/components/CommandPalette";
 
 export const metadata: Metadata = {
   title: "Mohammad Reza Babaei Mosleh",
@@ -19,6 +20,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-full flex flex-col" suppressHydrationWarning>
         <Nav />
         {children}
+        <CommandPalette />
       </body>
     </html>
   );
