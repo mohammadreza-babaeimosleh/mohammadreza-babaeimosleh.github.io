@@ -3,6 +3,7 @@ import Reveal from "./Reveal";
 import Spotlight from "./Spotlight";
 import CircuitBackground from "./CircuitBackground";
 import TextScramble from "./TextScramble";
+import GlitchImage from "./GlitchImage";
 
 const STATS = [
   { value: "3+", label: "Work Experience" },
@@ -69,6 +70,7 @@ export default function Hero() {
                 className="object-cover"
                 priority
               />
+              <GlitchImage src="/mohammad-photo.png" />
               <div className="absolute -bottom-3 -right-3 h-full w-full border border-accent/40 -z-10" />
             </div>
           </Reveal>
