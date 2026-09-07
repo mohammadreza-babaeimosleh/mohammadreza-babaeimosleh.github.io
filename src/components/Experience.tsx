@@ -2,6 +2,16 @@ import Reveal from "./Reveal";
 
 const EXPERIENCE = [
   {
+    role: "Research Intern",
+    org: "SAMOVAR Lab",
+    period: "Jul 2026 — Sep 2026",
+    bullets: [
+      "Researched human gait analysis from IMU sensor data to classify Parkinson's disease vs. healthy controls",
+      "Developed Bi-LSTM autoencoders with temporal attention, reaching the highest reported classification accuracy on the dataset",
+      "Ran cross-task and temporal analysis on model generalization, and contributed to the manuscript for a research paper",
+    ],
+  },
+  {
     role: "Software Developer & AI Engineer",
     org: "PropertyGPT",
     period: "Jun 2023 — Jun 2026",
