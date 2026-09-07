@@ -3,7 +3,13 @@ import Reveal from "./Reveal";
 const SKILLS: { group: string; items: string[] }[] = [
   {
     group: "Languages",
-    items: ["Python (Expert)", "TypeScript / JavaScript", "C / C++", "Bash"],
+    items: [
+      "Python (Expert)",
+      "TypeScript / JavaScript",
+      "Node.js, Next.js, React",
+      "C / C++",
+      "Bash",
+    ],
   },
   {
     group: "AI & ML",
