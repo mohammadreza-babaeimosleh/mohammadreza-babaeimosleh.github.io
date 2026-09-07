@@ -116,37 +116,37 @@ export default function GlitchImage({
       ctx!.globalAlpha = 1;
       ctx!.globalCompositeOperation = "source-over";
       ctx!.filter = "none";
-      ctx!.fillStyle = "rgba(10, 10, 11, 0.32)";
+      ctx!.fillStyle = "rgba(10, 10, 11, 0.22)";
       ctx!.fillRect(0, 0, width, height);
 
       const phase = elapsed / 130;
-      const wobble = Math.sin(phase) * 7;
-      const jitterX = wobble + (Math.random() - 0.5) * 5;
-      const jitterY = (Math.random() - 0.5) * 3;
+      const wobble = Math.sin(phase) * 12;
+      const jitterX = wobble + (Math.random() - 0.5) * 9;
+      const jitterY = (Math.random() - 0.5) * 6;
 
       ctx!.globalAlpha = 0.9;
       ctx!.drawImage(img, sx, sy, sw, sh, jitterX, jitterY, width, height);
 
       // Chromatic phase split: red/cyan duotone layers drifting apart
       // and back together out of sync, like a signal losing lock.
-      const splitAmount = 4 + Math.abs(Math.sin(phase * 0.55)) * 9;
+      const splitAmount = 8 + Math.abs(Math.sin(phase * 0.55)) * 18;
       ctx!.globalCompositeOperation = "screen";
-      ctx!.globalAlpha = 0.6;
+      ctx!.globalAlpha = 0.72;
       if (redLayer) {
-        ctx!.drawImage(redLayer, jitterX - splitAmount, jitterY - 1);
+        ctx!.drawImage(redLayer, jitterX - splitAmount, jitterY - 2);
       }
       if (cyanLayer) {
-        ctx!.drawImage(cyanLayer, jitterX + splitAmount, jitterY + 1);
+        ctx!.drawImage(cyanLayer, jitterX + splitAmount, jitterY + 2);
       }
       ctx!.globalCompositeOperation = "source-over";
       ctx!.globalAlpha = 1;
 
       // Slice tears
-      const bands = 2 + Math.floor(Math.random() * 3);
+      const bands = 3 + Math.floor(Math.random() * 4);
       for (let i = 0; i < bands; i++) {
-        const bandH = 6 + Math.random() * 24;
+        const bandH = 10 + Math.random() * 42;
         const bandY = Math.random() * Math.max(1, height - bandH);
-        const shift = (Math.random() - 0.5) * 30;
+        const shift = (Math.random() - 0.5) * 60;
         const srcBandY = sy + (bandY / height) * sh;
         const srcBandH = (bandH / height) * sh;
         ctx!.drawImage(
@@ -162,7 +162,28 @@ export default function GlitchImage({
         );
       }
 
-      ctx!.fillStyle = "rgba(0, 227, 154, 0.08)";
+      // Occasional large block tear for a heavier, more "corrupted
+      // codec" moment within the burst.
+      if (Math.random() < 0.35) {
+        const blockH = height * (0.18 + Math.random() * 0.22);
+        const blockY = Math.random() * Math.max(1, height - blockH);
+        const blockShift = (Math.random() - 0.5) * 90;
+        const srcBlockY = sy + (blockY / height) * sh;
+        const srcBlockH = (blockH / height) * sh;
+        ctx!.drawImage(
+          img,
+          sx,
+          srcBlockY,
+          sw,
+          srcBlockH,
+          blockShift,
+          blockY,
+          width,
+          blockH,
+        );
+      }
+
+      ctx!.fillStyle = "rgba(0, 227, 154, 0.1)";
       ctx!.fillRect(0, 0, width, height);
     }
 
@@ -191,7 +212,7 @@ export default function GlitchImage({
 
     function runBurst() {
       if (cancelled) return;
-      const burstDuration = 420 + Math.random() * 340;
+      const burstDuration = 700 + Math.random() * 500;
       let start: number | null = null;
       let holdUntil = 0;
 
@@ -227,13 +248,17 @@ export default function GlitchImage({
     }
 
     function runReveal() {
-      const duration = 1000;
+      const duration = 1500;
       let start: number | null = null;
       function step(ts: number) {
         if (start === null) start = ts;
         const elapsed = ts - start;
         const progress = Math.min(elapsed / duration, 1);
-        const eased = 1 - Math.pow(1 - progress, 3);
+        // Gentler, closer-to-linear falloff so the pixelation stays
+        // visible for most of the duration instead of snapping sharp
+        // early — keeps this in step with the text scramble, which
+        // stays unresolved until its very last frame.
+        const eased = 1 - Math.pow(1 - progress, 1.3);
         const blockSize = Math.max(1, Math.round(28 * (1 - eased)));
         drawPixelated(blockSize);
         if (progress < 1 && !cancelled) {

@@ -27,11 +27,16 @@ export default function Hero() {
               Positions
             </p>
             <h1 className="font-display text-5xl font-bold leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl">
-              <TextScramble text="Mohammad Reza" className="block" />
+              <TextScramble
+                text="Mohammad Reza"
+                className="block"
+                duration={1500}
+              />
               <TextScramble
                 text="Babaei Mosleh"
                 className="block"
                 startDelay={150}
+                duration={1350}
               />
             </h1>
             <p className="mt-6 max-w-xl text-lg text-muted-foreground">
