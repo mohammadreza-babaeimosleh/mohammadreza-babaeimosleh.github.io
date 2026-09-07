@@ -19,7 +19,7 @@ export default function Nav() {
           href="#top"
           className="font-display text-lg font-bold tracking-tight"
         >
-          MRBM<span className="text-accent">.</span>
+          MRBM<span className="text-accent animate-buzz">.</span>
         </a>
 
         <nav className="hidden items-center gap-8 md:flex">
@@ -34,7 +34,7 @@ export default function Nav() {
           ))}
           <a
             href="/Mohammad-Reza-Babaei-Mosleh-CV.pdf"
-            className="border border-accent px-4 py-2 font-mono text-xs uppercase tracking-widest text-accent transition-colors hover:bg-accent hover:text-accent-foreground"
+            className="electric-border border border-accent px-4 py-2 font-mono text-xs uppercase tracking-widest text-accent transition-colors hover:bg-accent hover:text-accent-foreground"
           >
             Résumé
           </a>

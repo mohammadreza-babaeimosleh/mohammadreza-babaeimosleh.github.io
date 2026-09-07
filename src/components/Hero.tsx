@@ -18,7 +18,7 @@ export default function Hero() {
         <div className="mx-auto grid max-w-6xl gap-12 px-6 py-20 md:grid-cols-[1.3fr_1fr] md:py-28">
           <Reveal>
             <p className="mb-6 inline-flex items-center gap-2 border border-border px-3 py-1 font-mono text-xs uppercase tracking-widest text-muted-foreground">
-              <span className="h-2 w-2 rounded-full bg-accent" />
+              <span className="h-2 w-2 rounded-full bg-accent animate-buzz" />
               Open to AI/ML, Signal Processing &amp; Software Engineering
               Positions
             </p>
@@ -40,13 +40,13 @@ export default function Hero() {
             <div className="mt-8 flex flex-wrap gap-4">
               <a
                 href="#work"
-                className="border border-accent bg-accent px-6 py-3 font-mono text-xs uppercase tracking-widest text-accent-foreground transition-opacity hover:opacity-90"
+                className="hover-buzz border border-accent bg-accent px-6 py-3 font-mono text-xs uppercase tracking-widest text-accent-foreground transition-opacity hover:opacity-90"
               >
                 View Research &amp; Projects
               </a>
               <a
                 href="#contact"
-                className="border border-border px-6 py-3 font-mono text-xs uppercase tracking-widest transition-colors hover:border-foreground"
+                className="electric-border border border-border px-6 py-3 font-mono text-xs uppercase tracking-widest transition-colors hover:border-foreground"
               >
                 Get In Touch
               </a>
@@ -54,7 +54,7 @@ export default function Hero() {
           </Reveal>
 
           <Reveal delay={150}>
-            <div className="relative mx-auto aspect-[4/5] w-full max-w-xs border border-border bg-card md:ml-auto">
+            <div className="electric-border relative mx-auto aspect-[4/5] w-full max-w-xs border border-border bg-card md:ml-auto">
               <Image
                 src="/mohammad-photo.png"
                 alt="Mohammad Reza Babaei Mosleh"
