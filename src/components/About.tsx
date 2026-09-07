@@ -39,9 +39,9 @@ const SKILLS: { group: string; items: string[] }[] = [
     items: [
       "Signal Processing",
       "Time-Series Analysis",
-      "STM32CubeIDE",
-      "Zephyr RTOS",
-      "MATLAB",
+      "Embedded and IOT Systems",
+      "Sound Processing",
+      "Biomedical Signals",
     ],
   },
 ];
@@ -55,7 +55,11 @@ export default function About() {
             01 — About
           </p>
           <h2 className="mt-3 font-display text-3xl font-bold tracking-tight sm:text-4xl">
-            Software engineering fundamentals, applied to hard AI problems.
+            Software Engineering{" "}
+            <span className="text-muted-foreground">/</span> AI/ML
+            Engineering <span className="text-muted-foreground">/</span>{" "}
+            Signal Processing <span className="text-muted-foreground">/</span>{" "}
+            Applied Research
           </h2>
         </Reveal>
 
@@ -76,16 +80,14 @@ export default function About() {
                 I&rsquo;ve architected LLM-powered platforms with agentic
                 workflows and RAG pipelines, led teams of engineers, and
                 shipped scalable backend systems on GCP and AWS. My research
-                sits at the intersection of machine learning and biomedical
-                signal processing — currently focused on unsupervised gait
-                representation learning for Parkinson&rsquo;s disease
-                detection.
+                sits at the intersection of machine learning and signal
+                processing.
               </p>
               <p>
                 I care about systems that work in production, not just in a
-                notebook — and I&rsquo;m currently looking for a research or
-                engineering internship in AI/ML, signal processing, or
-                medical AI.
+                notebook — and I&rsquo;m currently looking for a position in
+                AI/ML engineering, signal processing, or software
+                engineering.
               </p>
             </div>
           </Reveal>

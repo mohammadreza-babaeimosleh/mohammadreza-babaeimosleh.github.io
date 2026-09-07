@@ -27,13 +27,13 @@ export default function Contact() {
             04 — Contact
           </p>
           <h2 className="mt-3 max-w-2xl font-display text-3xl font-bold tracking-tight sm:text-5xl">
-            Looking for an AI/ML or signal processing intern? Let&rsquo;s
-            talk.
+            Looking for AI/ML, signal processing, or software engineering
+            talent? Let&rsquo;s talk.
           </h2>
           <p className="mt-4 max-w-xl text-muted-foreground">
-            Open to research and engineering internships across France and
-            the EU, starting spring. Reach out directly — I read every
-            message.
+            Open to AI/ML, signal processing, and software engineering
+            positions across France and the EU, starting spring. Reach out
+            directly — I read every message.
           </p>
         </Reveal>
 

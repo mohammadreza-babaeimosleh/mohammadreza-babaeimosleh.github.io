@@ -2,8 +2,8 @@ import Image from "next/image";
 import Reveal from "./Reveal";
 
 const STATS = [
-  { value: "3+", label: "Years Experience" },
-  { value: "7", label: "Engineers Led" },
+  { value: "3+", label: "Work Experience" },
+  { value: "M2", label: "Education Level" },
   { value: "2", label: "Published Papers" },
 ];
 
@@ -14,7 +14,7 @@ export default function Hero() {
         <Reveal>
           <p className="mb-6 inline-flex items-center gap-2 border border-border px-3 py-1 font-mono text-xs uppercase tracking-widest text-muted-foreground">
             <span className="h-2 w-2 rounded-full bg-accent" />
-            Open to AI/ML &amp; Signal Processing Internships
+            Open to AI/ML, Signal Processing &amp; Software Engineering Positions
           </p>
           <h1 className="font-display text-5xl font-bold leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl">
             Mohammad Reza
@@ -23,8 +23,8 @@ export default function Hero() {
           </h1>
           <p className="mt-6 max-w-xl text-lg text-muted-foreground">
             ML engineer &amp; researcher building AI systems that ship —
-            from LLM-powered platforms and RAG pipelines to biomedical
-            signal processing for Parkinson&rsquo;s disease detection.
+            from LLM-powered platforms and RAG pipelines to signal
+            processing and applied research.
           </p>
           <p className="mt-2 max-w-xl font-mono text-sm text-muted-foreground">
             M2 student, Institut Polytechnique de Paris — Machine Learning,
@@ -54,7 +54,7 @@ export default function Hero() {
               alt="Mohammad Reza Babaei Mosleh"
               fill
               sizes="(min-width: 768px) 320px, 80vw"
-              className="object-cover grayscale contrast-110"
+              className="object-cover"
               priority
             />
             <div className="absolute -bottom-3 -right-3 h-full w-full border border-accent/40 -z-10" />
