@@ -30,6 +30,8 @@ export default function GlitchImage({
     let raf = 0;
     let burstTimeout: ReturnType<typeof setTimeout>;
     let cancelled = false;
+    let redLayer: HTMLCanvasElement | null = null;
+    let cyanLayer: HTMLCanvasElement | null = null;
 
     function getCoverRect() {
       const imageAspect = img.naturalWidth / img.naturalHeight;
@@ -75,19 +77,76 @@ export default function GlitchImage({
       ctx!.drawImage(img, sx, sy, sw, sh, 0, 0, width, height);
     }
 
-    function drawGlitchFrame() {
+    // Pre-render duotone "channel" layers once per size, so per-frame
+    // glitch drawing is just cheap drawImage calls, not pixel math.
+    function prepareChannelLayers() {
+      if (width <= 0 || height <= 0) return;
       const { sx, sy, sw, sh } = getCoverRect();
-      ctx!.clearRect(0, 0, width, height);
-      const jitterX = (Math.random() - 0.5) * 5;
+
+      const base = document.createElement("canvas");
+      base.width = width;
+      base.height = height;
+      const baseCtx = base.getContext("2d");
+      if (!baseCtx) return;
+      baseCtx.filter = "grayscale(1) contrast(1.2)";
+      baseCtx.drawImage(img, sx, sy, sw, sh, 0, 0, width, height);
+
+      function tint(color: string) {
+        const layer = document.createElement("canvas");
+        layer.width = width;
+        layer.height = height;
+        const lctx = layer.getContext("2d");
+        if (!lctx) return layer;
+        lctx.drawImage(base, 0, 0);
+        lctx.globalCompositeOperation = "multiply";
+        lctx.fillStyle = color;
+        lctx.fillRect(0, 0, width, height);
+        return layer;
+      }
+
+      redLayer = tint("#ff2b4d");
+      cyanLayer = tint("#19e8ff");
+    }
+
+    function drawGlitchFrame(elapsed: number) {
+      const { sx, sy, sw, sh } = getCoverRect();
+
+      // Trailing smear instead of a hard clear — previous frame bleeds
+      // through faintly, reading as lag rather than a clean redraw.
+      ctx!.globalAlpha = 1;
+      ctx!.globalCompositeOperation = "source-over";
+      ctx!.filter = "none";
+      ctx!.fillStyle = "rgba(10, 10, 11, 0.32)";
+      ctx!.fillRect(0, 0, width, height);
+
+      const phase = elapsed / 130;
+      const wobble = Math.sin(phase) * 7;
+      const jitterX = wobble + (Math.random() - 0.5) * 5;
       const jitterY = (Math.random() - 0.5) * 3;
-      ctx!.imageSmoothingEnabled = true;
+
+      ctx!.globalAlpha = 0.9;
       ctx!.drawImage(img, sx, sy, sw, sh, jitterX, jitterY, width, height);
 
-      const bands = 2 + Math.floor(Math.random() * 2);
+      // Chromatic phase split: red/cyan duotone layers drifting apart
+      // and back together out of sync, like a signal losing lock.
+      const splitAmount = 4 + Math.abs(Math.sin(phase * 0.55)) * 9;
+      ctx!.globalCompositeOperation = "screen";
+      ctx!.globalAlpha = 0.6;
+      if (redLayer) {
+        ctx!.drawImage(redLayer, jitterX - splitAmount, jitterY - 1);
+      }
+      if (cyanLayer) {
+        ctx!.drawImage(cyanLayer, jitterX + splitAmount, jitterY + 1);
+      }
+      ctx!.globalCompositeOperation = "source-over";
+      ctx!.globalAlpha = 1;
+
+      // Slice tears
+      const bands = 2 + Math.floor(Math.random() * 3);
       for (let i = 0; i < bands; i++) {
-        const bandH = 8 + Math.random() * 18;
+        const bandH = 6 + Math.random() * 24;
         const bandY = Math.random() * Math.max(1, height - bandH);
-        const shift = (Math.random() - 0.5) * 18;
+        const shift = (Math.random() - 0.5) * 30;
         const srcBandY = sy + (bandY / height) * sh;
         const srcBandH = (bandH / height) * sh;
         ctx!.drawImage(
@@ -103,7 +162,7 @@ export default function GlitchImage({
         );
       }
 
-      ctx!.fillStyle = "rgba(0, 227, 154, 0.07)";
+      ctx!.fillStyle = "rgba(0, 227, 154, 0.08)";
       ctx!.fillRect(0, 0, width, height);
     }
 
@@ -118,23 +177,45 @@ export default function GlitchImage({
       canvas!.style.width = `${width}px`;
       canvas!.style.height = `${height}px`;
       ctx!.setTransform(dpr, 0, 0, dpr, 0, 0);
-      if (ready) drawClean();
+      if (ready) {
+        prepareChannelLayers();
+        drawClean();
+      }
     }
 
     function scheduleBurst() {
       if (cancelled) return;
-      const delay = 2600 + Math.random() * 2600;
+      const delay = 1800 + Math.random() * 1800;
       burstTimeout = setTimeout(runBurst, delay);
     }
 
     function runBurst() {
       if (cancelled) return;
-      const burstDuration = 160 + Math.random() * 120;
+      const burstDuration = 420 + Math.random() * 340;
       let start: number | null = null;
+      let holdUntil = 0;
+
       function step(ts: number) {
         if (start === null) start = ts;
         const elapsed = ts - start;
-        drawGlitchFrame();
+
+        // Occasional lag stutter: freeze the current frame briefly
+        // instead of redrawing every tick, then snap forward again.
+        if (ts < holdUntil) {
+          if (elapsed < burstDuration && !cancelled) {
+            raf = requestAnimationFrame(step);
+          } else {
+            drawClean();
+            scheduleBurst();
+          }
+          return;
+        }
+        if (Math.random() < 0.1) {
+          holdUntil = ts + 60 + Math.random() * 90;
+        }
+
+        drawGlitchFrame(elapsed);
+
         if (elapsed < burstDuration && !cancelled) {
           raf = requestAnimationFrame(step);
         } else {
@@ -168,6 +249,7 @@ export default function GlitchImage({
     img.onload = () => {
       ready = true;
       resize();
+      prepareChannelLayers();
       if (reduceMotion) {
         drawClean();
       } else {
