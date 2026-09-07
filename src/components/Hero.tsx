@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Reveal from "./Reveal";
+import Spotlight from "./Spotlight";
 
 const STATS = [
   { value: "3+", label: "Work Experience" },
@@ -10,7 +11,7 @@ const STATS = [
 export default function Hero() {
   return (
     <section id="top" className="relative overflow-hidden border-b border-border">
-      <div className="mx-auto grid max-w-6xl gap-12 px-6 py-20 md:grid-cols-[1.3fr_1fr] md:py-28">
+      <Spotlight className="mx-auto grid max-w-6xl gap-12 px-6 py-20 md:grid-cols-[1.3fr_1fr] md:py-28">
         <Reveal>
           <p className="mb-6 inline-flex items-center gap-2 border border-border px-3 py-1 font-mono text-xs uppercase tracking-widest text-muted-foreground">
             <span className="h-2 w-2 rounded-full bg-accent" />
@@ -60,7 +61,7 @@ export default function Hero() {
             <div className="absolute -bottom-3 -right-3 h-full w-full border border-accent/40 -z-10" />
           </div>
         </Reveal>
-      </div>
+      </Spotlight>
 
       <Reveal>
         <dl className="grid grid-cols-3 divide-x divide-border border-t border-border">

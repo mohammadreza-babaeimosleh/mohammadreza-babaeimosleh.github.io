@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "motion/react";
+import { motion, useMotionTemplate, useMotionValue } from "motion/react";
+import type { MouseEvent } from "react";
 
 type Project = {
   title: string;
@@ -65,6 +66,69 @@ const PROJECTS: Project[] = [
   },
 ];
 
+function ProjectCard({ project, index }: { project: Project; index: number }) {
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  function handleMouseMove(e: MouseEvent<HTMLElement>) {
+    const rect = e.currentTarget.getBoundingClientRect();
+    mouseX.set(e.clientX - rect.left);
+    mouseY.set(e.clientY - rect.top);
+  }
+
+  const background = useMotionTemplate`radial-gradient(450px circle at ${mouseX}px ${mouseY}px, rgba(0, 227, 154, 0.14), transparent 70%)`;
+
+  return (
+    <motion.article
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.5, delay: (index % 2) * 0.1, ease: "easeOut" }}
+      whileHover={{ y: -4 }}
+      onMouseMove={handleMouseMove}
+      className="group relative h-full overflow-hidden border border-border bg-card p-6 transition-colors hover:border-accent md:p-8"
+    >
+      <motion.div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+        style={{ background }}
+      />
+      <div className="relative">
+        <div className="flex flex-wrap items-start justify-between gap-2">
+          <h3 className="font-display text-xl font-bold sm:text-2xl">
+            {project.title}
+          </h3>
+          <span className="border border-accent px-2 py-1 font-mono text-[10px] uppercase tracking-widest text-accent">
+            {project.status}
+          </span>
+        </div>
+        <p className="mt-1 font-mono text-xs text-muted-foreground">
+          {project.period}
+        </p>
+        <p className="mt-4 text-foreground">{project.description}</p>
+        <ul className="mt-4 space-y-2">
+          {project.bullets.map((bullet) => (
+            <li key={bullet} className="flex gap-2 text-sm text-muted-foreground">
+              <span className="mt-2 h-1 w-1 shrink-0 bg-accent" />
+              {bullet}
+            </li>
+          ))}
+        </ul>
+        <div className="mt-6 flex flex-wrap gap-2">
+          {project.tags.map((tag) => (
+            <span
+              key={tag}
+              className="border border-border px-2 py-1 font-mono text-[10px] uppercase tracking-widest text-muted-foreground"
+            >
+              {tag}
+            </span>
+          ))}
+        </div>
+      </div>
+    </motion.article>
+  );
+}
+
 export default function Projects() {
   return (
     <section id="work" className="border-b border-border">
@@ -85,49 +149,7 @@ export default function Projects() {
 
         <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2">
           {PROJECTS.map((project, i) => (
-            <motion.article
-              key={project.title}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.5, delay: (i % 2) * 0.1, ease: "easeOut" }}
-              whileHover={{ y: -4 }}
-              className="group relative h-full border border-border bg-card p-6 transition-colors hover:border-accent md:p-8"
-            >
-              <div className="flex flex-wrap items-start justify-between gap-2">
-                <h3 className="font-display text-xl font-bold sm:text-2xl">
-                  {project.title}
-                </h3>
-                <span className="border border-accent px-2 py-1 font-mono text-[10px] uppercase tracking-widest text-accent">
-                  {project.status}
-                </span>
-              </div>
-              <p className="mt-1 font-mono text-xs text-muted-foreground">
-                {project.period}
-              </p>
-              <p className="mt-4 text-foreground">{project.description}</p>
-              <ul className="mt-4 space-y-2">
-                {project.bullets.map((bullet) => (
-                  <li
-                    key={bullet}
-                    className="flex gap-2 text-sm text-muted-foreground"
-                  >
-                    <span className="mt-2 h-1 w-1 shrink-0 bg-accent" />
-                    {bullet}
-                  </li>
-                ))}
-              </ul>
-              <div className="mt-6 flex flex-wrap gap-2">
-                {project.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="border border-border px-2 py-1 font-mono text-[10px] uppercase tracking-widest text-muted-foreground"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </motion.article>
+            <ProjectCard key={project.title} project={project} index={i} />
           ))}
         </div>
       </div>
