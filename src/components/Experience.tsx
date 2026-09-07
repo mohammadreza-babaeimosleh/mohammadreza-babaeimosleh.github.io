@@ -73,33 +73,42 @@ export default function Experience() {
           </div>
         </Reveal>
 
-        <div className="mt-10 space-y-0">
+        <div className="mt-10">
           {EXPERIENCE.map((job, i) => (
             <Reveal key={job.org} delay={i * 100}>
-              <div className="grid gap-2 border-t border-border py-8 md:grid-cols-[220px_1fr]">
-                <div>
-                  <h3 className="font-display text-lg font-bold">{job.org}</h3>
-                  <p className="font-mono text-xs text-muted-foreground">
-                    {job.period}
-                  </p>
-                </div>
-                <div>
-                  <p className="font-medium text-foreground">{job.role}</p>
-                  <ul className="mt-3 space-y-2">
-                    {job.bullets.map((bullet) => (
-                      <li
-                        key={bullet}
-                        className="flex gap-2 text-sm text-muted-foreground"
-                      >
-                        <span className="mt-2 h-1 w-1 shrink-0 bg-accent" />
-                        {bullet}
-                      </li>
-                    ))}
-                  </ul>
+              <div className="group relative overflow-hidden border-t border-border">
+                <div
+                  aria-hidden
+                  className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-accent/10 to-transparent transition-transform duration-700 ease-out group-hover:translate-x-full"
+                />
+                <div className="relative grid gap-2 py-8 transition-colors duration-300 md:grid-cols-[220px_1fr] md:group-hover:pl-4">
+                  <div>
+                    <h3 className="font-display text-lg font-bold transition-colors duration-300 group-hover:text-accent">
+                      {job.org}
+                    </h3>
+                    <p className="font-mono text-xs text-muted-foreground">
+                      {job.period}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="font-medium text-foreground">{job.role}</p>
+                    <ul className="mt-3 space-y-2">
+                      {job.bullets.map((bullet) => (
+                        <li
+                          key={bullet}
+                          className="flex gap-2 text-sm text-muted-foreground"
+                        >
+                          <span className="mt-2 h-1 w-1 shrink-0 bg-accent" />
+                          {bullet}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
               </div>
             </Reveal>
           ))}
+          <div className="border-t border-border" />
         </div>
 
         <Reveal>

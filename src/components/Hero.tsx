@@ -1,10 +1,10 @@
+import Image from "next/image";
 import Reveal from "./Reveal";
 
 const STATS = [
   { value: "3+", label: "Years Experience" },
-  { value: "0.884", label: "ROC-AUC, WearGait-PD" },
-  { value: "3M+", label: "Listings Processed" },
-  { value: "17.4/20", label: "M.Sc. GPA" },
+  { value: "7", label: "Engineers Led" },
+  { value: "2", label: "Published Papers" },
 ];
 
 export default function Hero() {
@@ -49,21 +49,21 @@ export default function Hero() {
 
         <Reveal delay={150}>
           <div className="relative mx-auto aspect-[4/5] w-full max-w-xs border border-border bg-card md:ml-auto">
-            <div className="flex h-full w-full flex-col items-center justify-center gap-3 p-6 text-center">
-              <span className="font-display text-4xl font-bold text-accent">
-                MB
-              </span>
-              <p className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
-                Photo coming soon
-              </p>
-            </div>
+            <Image
+              src="/mohammad-photo.png"
+              alt="Mohammad Reza Babaei Mosleh"
+              fill
+              sizes="(min-width: 768px) 320px, 80vw"
+              className="object-cover grayscale contrast-110"
+              priority
+            />
             <div className="absolute -bottom-3 -right-3 h-full w-full border border-accent/40 -z-10" />
           </div>
         </Reveal>
       </div>
 
       <Reveal>
-        <dl className="grid grid-cols-2 divide-x divide-border border-t border-border md:grid-cols-4">
+        <dl className="grid grid-cols-3 divide-x divide-border border-t border-border">
           {STATS.map((stat) => (
             <div key={stat.label} className="px-6 py-6 text-center md:text-left">
               <dt className="font-display text-2xl font-bold sm:text-3xl">
