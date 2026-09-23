@@ -4,6 +4,7 @@ const EXPERIENCE = [
   {
     role: "Research Intern",
     org: "SAMOVAR Lab",
+    location: "Paris, France",
     period: "Jul 2026 — Sep 2026",
     bullets: [
       "Researched human gait analysis from IMU sensor data to classify Parkinson's disease vs. healthy controls",
@@ -14,6 +15,7 @@ const EXPERIENCE = [
   {
     role: "Software Developer & AI Engineer",
     org: "PropertyGPT",
+    location: "Dubai, UAE",
     period: "Jun 2023 — Jun 2026",
     bullets: [
       "Architected an end-to-end AI real estate platform with agentic LLM workflows (LangGraph, LlamaIndex)",
@@ -24,6 +26,7 @@ const EXPERIENCE = [
   {
     role: "Embedded Systems & AI Engineer",
     org: "NikTed",
+    location: "Tehran, Iran",
     period: "Jul 2023 — Sep 2023",
     bullets: [
       "Optimized frequency-based signal amplification for home-care hearing aid hardware",
@@ -34,6 +37,7 @@ const EXPERIENCE = [
   {
     role: "AI Engineer & Database Administrator",
     org: "IthermAI",
+    location: "Heverlee, Belgium",
     period: "Jul 2022 — Feb 2023",
     bullets: [
       "Curated large-scale image datasets for an industrial smoke/fire detection system",
@@ -98,6 +102,9 @@ export default function Experience() {
                     </h3>
                     <p className="font-mono text-xs text-muted-foreground">
                       {job.period}
+                    </p>
+                    <p className="mt-1 font-mono text-xs text-muted-foreground/70">
+                      {job.location}
                     </p>
                   </div>
                   <div>
