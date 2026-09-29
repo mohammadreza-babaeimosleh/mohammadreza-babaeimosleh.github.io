@@ -87,7 +87,7 @@ export default function LocationGlobe({
       lastTs = ts;
 
       if (!reduceMotion && !isDragging) {
-        rotationLambda += dt * 0.02;
+        rotationLambda += dt * 0.05; // another 2.5x on top of the prior bump
       }
       projection.rotate([rotationLambda, tiltPhi, 0]);
 
@@ -120,9 +120,10 @@ export default function LocationGlobe({
         ctx!.stroke();
       }
 
-      // Career-path arcs between consecutive locations
-      ctx!.strokeStyle = "rgba(0, 227, 154, 0.8)";
-      ctx!.lineWidth = 1.4;
+      // Career-path arcs between consecutive locations — amber so they
+      // stand out clearly against the green landmass/graticule.
+      ctx!.strokeStyle = "rgba(255, 176, 32, 0.9)";
+      ctx!.lineWidth = 1.6;
       for (let i = 0; i < locations.length - 1; i++) {
         const a: [number, number] = [locations[i].lon, locations[i].lat];
         const b: [number, number] = [
@@ -164,12 +165,12 @@ export default function LocationGlobe({
         if (isHovered) {
           ctx!.beginPath();
           ctx!.arc(p[0], p[1], size + 6, 0, Math.PI * 2);
-          ctx!.fillStyle = "rgba(0, 227, 154, 0.18)";
+          ctx!.fillStyle = "rgba(255, 176, 32, 0.22)";
           ctx!.fill();
         }
         ctx!.beginPath();
         ctx!.arc(p[0], p[1], size, 0, Math.PI * 2);
-        ctx!.fillStyle = `rgba(0, 227, 154, ${alpha})`;
+        ctx!.fillStyle = `rgba(255, 176, 32, ${alpha})`;
         ctx!.fill();
         ctx!.beginPath();
         ctx!.arc(p[0], p[1], size, 0, Math.PI * 2);
