@@ -41,13 +41,18 @@ export default function Hero() {
               />
             </h1>
             <p className="mt-6 max-w-xl text-lg text-muted-foreground">
-              ML engineer, software engineer &amp; researcher building AI
-              systems that ship — from LLM-powered platforms and RAG pipelines
-              to software engineering, signal processing, and applied research.
+              <TextScramble
+                text="ML engineer, software engineer & researcher building AI systems that ship — from LLM-powered platforms and RAG pipelines to software engineering, signal processing, and applied research."
+                startDelay={300}
+                duration={1400}
+              />
             </p>
             <p className="mt-2 max-w-xl font-mono text-sm text-muted-foreground">
-              M2 student, Institut Polytechnique de Paris — Machine Learning,
-              Communications &amp; Security
+              <TextScramble
+                text="M2 student, Institut Polytechnique de Paris — Machine Learning, Communications & Security"
+                startDelay={550}
+                duration={900}
+              />
             </p>
 
             <div className="mt-8 flex flex-wrap gap-4">
