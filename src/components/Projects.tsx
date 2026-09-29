@@ -1,7 +1,12 @@
 "use client";
 
-import { motion, useMotionTemplate, useMotionValue } from "motion/react";
-import type { MouseEvent } from "react";
+import {
+  motion,
+  useMotionTemplate,
+  useMotionValue,
+  useSpring,
+} from "motion/react";
+import { useState, type MouseEvent } from "react";
 
 type Project = {
   title: string;
@@ -76,13 +81,45 @@ const PROJECTS: Project[] = [
 ];
 
 function ProjectCard({ project, index }: { project: Project; index: number }) {
+  const [reduceMotion] = useState(
+    () =>
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+  );
+
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
+  const rotateXRaw = useMotionValue(0);
+  const rotateYRaw = useMotionValue(0);
+  const rotateX = useSpring(rotateXRaw, {
+    stiffness: 260,
+    damping: 22,
+    mass: 0.6,
+  });
+  const rotateY = useSpring(rotateYRaw, {
+    stiffness: 260,
+    damping: 22,
+    mass: 0.6,
+  });
 
   function handleMouseMove(e: MouseEvent<HTMLElement>) {
     const rect = e.currentTarget.getBoundingClientRect();
-    mouseX.set(e.clientX - rect.left);
-    mouseY.set(e.clientY - rect.top);
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    mouseX.set(x);
+    mouseY.set(y);
+
+    if (reduceMotion) return;
+    const px = x / rect.width - 0.5;
+    const py = y / rect.height - 0.5;
+    const MAX_TILT = 9;
+    rotateYRaw.set(px * MAX_TILT * 2);
+    rotateXRaw.set(-py * MAX_TILT * 2);
+  }
+
+  function handleMouseLeave() {
+    rotateXRaw.set(0);
+    rotateYRaw.set(0);
   }
 
   const background = useMotionTemplate`radial-gradient(450px circle at ${mouseX}px ${mouseY}px, rgba(0, 227, 154, 0.14), transparent 70%)`;
@@ -93,8 +130,15 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.5, delay: (index % 2) * 0.1, ease: "easeOut" }}
-      whileHover={{ y: -4 }}
+      whileHover={reduceMotion ? undefined : { y: -6, scale: 1.015 }}
       onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{
+        rotateX,
+        rotateY,
+        transformPerspective: 900,
+        transformStyle: "preserve-3d",
+      }}
       className="group relative h-full overflow-hidden border border-border bg-card p-6 transition-colors hover:border-accent md:p-8"
     >
       <motion.div
@@ -102,7 +146,10 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
         className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
         style={{ background }}
       />
-      <div className="relative">
+      <div
+        className="relative"
+        style={reduceMotion ? undefined : { transform: "translateZ(28px)" }}
+      >
         <div className="flex flex-wrap items-start justify-between gap-2">
           <h3 className="font-display text-xl font-bold sm:text-2xl">
             {project.link ? (

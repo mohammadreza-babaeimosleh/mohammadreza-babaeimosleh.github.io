@@ -101,9 +101,9 @@ export default function ExperienceTimeline({ jobs }: { jobs: TimelineJob[] }) {
         }
       }}
     >
-      <p className="mb-3 flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-widest text-muted-foreground/60">
-        <MousePointerClick className="h-3 w-3 text-accent" aria-hidden />
-        Click a milestone to explore
+      <p className="pulse-badge mb-4 inline-flex w-fit items-center gap-2 border border-accent/50 bg-accent/10 px-3 py-1.5 font-mono text-[11px] font-medium uppercase tracking-widest text-accent">
+        <MousePointerClick className="h-3.5 w-3.5 animate-bounce" aria-hidden />
+        Click a milestone to explore the detail
       </p>
 
       <div className="no-scrollbar overflow-x-auto">
