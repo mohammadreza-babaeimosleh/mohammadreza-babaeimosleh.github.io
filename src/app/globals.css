@@ -226,3 +226,23 @@ body {
     transform: rotateZ(360deg);
   }
 }
+
+.skill-chip {
+  pointer-events: auto;
+  border-color: color-mix(in srgb, var(--chip-color) 40%, transparent);
+  color: color-mix(in srgb, var(--chip-color) 75%, var(--muted-foreground));
+  transition:
+    border-color 0.2s ease,
+    color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.skill-chip:hover {
+  border-color: var(--chip-color);
+  color: var(--chip-color);
+  background-color: color-mix(
+    in srgb,
+    var(--chip-color) 14%,
+    var(--background)
+  );
+}

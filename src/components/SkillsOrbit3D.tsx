@@ -1,6 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState, type ComponentType } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type ComponentType,
+  type CSSProperties,
+} from "react";
 import {
   Code2,
   Layers,
@@ -33,6 +39,7 @@ type SkillItem = { label: string; Icon: IconType };
 
 type OrbitRing = {
   group: string;
+  color: string;
   items: SkillItem[];
   spreadDeg: number;
   scale: number;
@@ -45,6 +52,7 @@ const TILT_DEG = 68;
 const RINGS: OrbitRing[] = [
   {
     group: "Languages",
+    color: "#60a5fa",
     items: [
       { label: "Python", Icon: SiPython },
       { label: "TypeScript", Icon: SiTypescript },
@@ -58,6 +66,7 @@ const RINGS: OrbitRing[] = [
   },
   {
     group: "AI & ML",
+    color: "#c084fc",
     items: [
       { label: "LangChain", Icon: SiLangchain },
       { label: "LlamaIndex", Icon: Layers },
@@ -72,6 +81,7 @@ const RINGS: OrbitRing[] = [
   },
   {
     group: "Infrastructure",
+    color: "#fb923c",
     items: [
       { label: "GCP", Icon: SiGooglecloud },
       { label: "AWS", Icon: FaAws },
@@ -86,6 +96,7 @@ const RINGS: OrbitRing[] = [
   },
   {
     group: "Signal & Embedded",
+    color: "#f472b6",
     items: [
       { label: "Signal Processing", Icon: AudioWaveform },
       { label: "Time-Series Analysis", Icon: TrendingUp },
@@ -122,116 +133,137 @@ export default function SkillsOrbit3D() {
   const paused = reduceMotion || !isVisible;
 
   return (
-    <div
-      ref={containerRef}
-      className="relative mx-auto aspect-square w-full max-w-[300px]"
-      style={{ perspective: "1200px" }}
-    >
+    <div>
       <div
-        className="absolute inset-0"
-        style={{ transformStyle: "preserve-3d" }}
+        ref={containerRef}
+        className="relative mx-auto aspect-square w-full max-w-[300px]"
+        style={{ perspective: "1200px" }}
       >
-        <div className="electric-border absolute left-1/2 top-1/2 z-10 flex h-11 w-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-card">
-          <Code2 className="h-4 w-4 text-accent" aria-hidden />
-        </div>
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{ transformStyle: "preserve-3d" }}
+        >
+          <div className="electric-border absolute left-1/2 top-1/2 z-10 flex h-11 w-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-card">
+            <Code2 className="h-4 w-4 text-accent" aria-hidden />
+          </div>
 
-        {RINGS.map((ring) => (
-          <div
-            key={ring.group}
-            className="absolute inset-0"
-            style={{
-              transform: `scale(${ring.scale})`,
-              transformStyle: "preserve-3d",
-            }}
-          >
+          {RINGS.map((ring) => (
             <div
-              className="absolute inset-0"
+              key={ring.group}
+              className="pointer-events-none absolute inset-0"
               style={{
-                transform: `rotateZ(${ring.spreadDeg}deg)`,
+                transform: `scale(${ring.scale})`,
                 transformStyle: "preserve-3d",
               }}
             >
               <div
-                className="absolute inset-0"
+                className="pointer-events-none absolute inset-0"
                 style={{
-                  transform: `rotateX(${TILT_DEG}deg)`,
+                  transform: `rotateZ(${ring.spreadDeg}deg)`,
                   transformStyle: "preserve-3d",
                 }}
               >
                 <div
-                  aria-hidden
-                  className="absolute inset-0 rounded-full border border-dashed border-border/50"
-                />
-
-                <div
-                  className="absolute inset-0"
+                  className="pointer-events-none absolute inset-0"
                   style={{
+                    transform: `rotateX(${TILT_DEG}deg)`,
                     transformStyle: "preserve-3d",
-                    animationName: "ring3d-spin",
-                    animationDuration: `${ring.duration}s`,
-                    animationTimingFunction: "linear",
-                    animationIterationCount: "infinite",
-                    animationDirection: ring.reverse ? "reverse" : "normal",
-                    animationPlayState: paused ? "paused" : "running",
                   }}
                 >
-                  {ring.items.map((item, i) => {
-                    const angle = (360 / ring.items.length) * i;
-                    const rad = (angle * Math.PI) / 180;
-                    const x = 50 + 50 * Math.cos(rad);
-                    const y = 50 + 50 * Math.sin(rad);
-                    const Icon = item.Icon;
-                    return (
-                      <div
-                        key={item.label}
-                        className="absolute -translate-x-1/2 -translate-y-1/2"
-                        style={{
-                          left: `${x}%`,
-                          top: `${y}%`,
-                          transformStyle: "preserve-3d",
-                        }}
-                      >
+                  <div
+                    aria-hidden
+                    className="pointer-events-none absolute inset-0 rounded-full border border-dashed"
+                    style={{ borderColor: `${ring.color}4d` }}
+                  />
+
+                  <div
+                    className="pointer-events-none absolute inset-0"
+                    style={{
+                      transformStyle: "preserve-3d",
+                      animationName: "ring3d-spin",
+                      animationDuration: `${ring.duration}s`,
+                      animationTimingFunction: "linear",
+                      animationIterationCount: "infinite",
+                      animationDirection: ring.reverse ? "reverse" : "normal",
+                      animationPlayState: paused ? "paused" : "running",
+                    }}
+                  >
+                    {ring.items.map((item, i) => {
+                      const angle = (360 / ring.items.length) * i;
+                      const rad = (angle * Math.PI) / 180;
+                      const x = 50 + 50 * Math.cos(rad);
+                      const y = 50 + 50 * Math.sin(rad);
+                      const Icon = item.Icon;
+                      return (
                         <div
+                          key={item.label}
+                          className="pointer-events-none absolute -translate-x-1/2 -translate-y-1/2"
                           style={{
-                            display: "block",
+                            left: `${x}%`,
+                            top: `${y}%`,
                             transformStyle: "preserve-3d",
-                            animationName: "ring3d-spin",
-                            animationDuration: `${ring.duration}s`,
-                            animationTimingFunction: "linear",
-                            animationIterationCount: "infinite",
-                            animationDirection: ring.reverse
-                              ? "normal"
-                              : "reverse",
-                            animationPlayState: paused ? "paused" : "running",
                           }}
                         >
                           <div
                             style={{
                               display: "block",
-                              transform: `rotateX(${-TILT_DEG}deg)`,
                               transformStyle: "preserve-3d",
+                              animationName: "ring3d-spin",
+                              animationDuration: `${ring.duration}s`,
+                              animationTimingFunction: "linear",
+                              animationIterationCount: "infinite",
+                              animationDirection: ring.reverse
+                                ? "normal"
+                                : "reverse",
+                              animationPlayState: paused ? "paused" : "running",
                             }}
                           >
-                            <span
+                            <div
                               style={{
-                                display: "flex",
-                                transform: `rotateZ(${-ring.spreadDeg}deg)`,
+                                display: "block",
+                                transform: `rotateX(${-TILT_DEG}deg)`,
+                                transformStyle: "preserve-3d",
                               }}
-                              title={item.label}
-                              aria-label={item.label}
-                              role="img"
-                              className="h-8 w-8 items-center justify-center rounded-md border border-border bg-background/90 text-muted-foreground backdrop-blur-sm transition-colors hover:border-accent hover:text-accent"
                             >
-                              <Icon className="h-4 w-4" />
-                            </span>
+                              <span
+                                style={
+                                  {
+                                    display: "flex",
+                                    transform: `rotateZ(${-ring.spreadDeg}deg)`,
+                                    "--chip-color": ring.color,
+                                  } as CSSProperties
+                                }
+                                title={item.label}
+                                aria-label={item.label}
+                                role="img"
+                                className="skill-chip h-8 w-8 items-center justify-center rounded-md border bg-background/90 backdrop-blur-sm"
+                              >
+                                <Icon className="h-4 w-4" />
+                              </span>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    );
-                  })}
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
             </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="mt-5 flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
+        {RINGS.map((ring) => (
+          <div key={ring.group} className="flex items-center gap-1.5">
+            <span
+              aria-hidden
+              className="h-2 w-2 rounded-full"
+              style={{ backgroundColor: ring.color }}
+            />
+            <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+              {ring.group}
+            </span>
           </div>
         ))}
       </div>
