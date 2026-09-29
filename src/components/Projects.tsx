@@ -10,6 +10,7 @@ type Project = {
   description: string;
   bullets: string[];
   tags: string[];
+  link?: string;
 };
 
 const PROJECTS: Project[] = [
@@ -17,6 +18,7 @@ const PROJECTS: Project[] = [
     title: "PropertyGPT",
     period: "Jun 2023 — Jun 2026",
     status: "Production",
+    link: "https://propertygpt.com",
     description:
       "End-to-end AI-powered real estate platform for personalized home search and investment tours.",
     bullets: [
@@ -28,9 +30,10 @@ const PROJECTS: Project[] = [
     tags: ["LangGraph", "LlamaIndex", "FastAPI", "Kubernetes", "GCP/AWS"],
   },
   {
-    title: "AI Styling & Virtual Try-On Platform",
+    title: "BeforeAI.io",
     period: "2025",
     status: "Shipped",
+    link: "https://beforeai.io",
     description:
       "White-label platform bringing virtual try-on, AI styling, and an AI studio to fashion retailers of any size.",
     bullets: [
@@ -50,12 +53,18 @@ const PROJECTS: Project[] = [
       "BiLSTM sequence autoencoder trained on 286-channel IMU data from 185 subjects (100 PD, 85 control) across 8 clinical tasks",
       "Outperforms prior models in this research direction with a novel signal-processing approach that enables reliable classification across clinical gait experiments",
     ],
-    tags: ["PyTorch", "Signal Processing", "Unsupervised Learning", "Biomedical AI"],
+    tags: [
+      "PyTorch",
+      "Signal Processing",
+      "Unsupervised Learning",
+      "Biomedical AI",
+    ],
   },
   {
     title: "IoT Malware Classification",
     period: "2024",
     status: "Published",
+    link: "https://www.sciencedirect.com/science/article/pii/S0167739X24001237",
     description:
       "An efficient cloud-integrated multi-stage CNN framework for IoT malware classification.",
     bullets: [
@@ -96,7 +105,32 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
       <div className="relative">
         <div className="flex flex-wrap items-start justify-between gap-2">
           <h3 className="font-display text-xl font-bold sm:text-2xl">
-            {project.title}
+            {project.link ? (
+              <a
+                href={project.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 underline decoration-border decoration-2 underline-offset-4 transition-colors hover:text-accent hover:decoration-accent"
+              >
+                {project.title}
+                <svg
+                  aria-hidden
+                  viewBox="0 0 24 24"
+                  className="h-4 w-4 shrink-0 opacity-60"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
+                  <path
+                    d="M7 17 17 7M9 7h8v8"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </a>
+            ) : (
+              project.title
+            )}
           </h3>
           <span className="border border-accent px-2 py-1 font-mono text-[10px] uppercase tracking-widest text-accent">
             {project.status}
@@ -108,7 +142,10 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
         <p className="mt-4 text-foreground">{project.description}</p>
         <ul className="mt-4 space-y-2">
           {project.bullets.map((bullet) => (
-            <li key={bullet} className="flex gap-2 text-sm text-muted-foreground">
+            <li
+              key={bullet}
+              className="flex gap-2 text-sm text-muted-foreground"
+            >
               <span className="mt-2 h-1 w-1 shrink-0 bg-accent" />
               {bullet}
             </li>

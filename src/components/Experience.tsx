@@ -15,6 +15,7 @@ const EXPERIENCE = [
   {
     role: "Software Developer & AI Engineer",
     org: "PropertyGPT",
+    link: "https://propertygpt.com",
     location: "Dubai, UAE",
     period: "Jun 2023 — Jun 2026",
     bullets: [
@@ -98,7 +99,18 @@ export default function Experience() {
                 <div className="relative grid gap-2 py-8 transition-colors duration-300 md:grid-cols-[220px_1fr] md:group-hover:pl-4">
                   <div>
                     <h3 className="font-display text-lg font-bold transition-colors duration-300 group-hover:text-accent">
-                      {job.org}
+                      {"link" in job && job.link ? (
+                        <a
+                          href={job.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="underline decoration-border decoration-2 underline-offset-4 transition-colors hover:text-accent hover:decoration-accent"
+                        >
+                          {job.org}
+                        </a>
+                      ) : (
+                        job.org
+                      )}
                     </h3>
                     <p className="font-mono text-xs text-muted-foreground">
                       {job.period}
