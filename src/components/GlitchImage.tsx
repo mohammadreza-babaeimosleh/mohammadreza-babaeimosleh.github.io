@@ -32,6 +32,8 @@ export default function GlitchImage({
     let cancelled = false;
     let redLayer: HTMLCanvasElement | null = null;
     let cyanLayer: HTMLCanvasElement | null = null;
+    let isVisible = true;
+    let burstPending = false;
 
     function getCoverRect() {
       const imageAspect = img.naturalWidth / img.naturalHeight;
@@ -206,6 +208,13 @@ export default function GlitchImage({
 
     function scheduleBurst() {
       if (cancelled) return;
+      // Don't queue up bursts while scrolled off screen — wait for the
+      // visibility observer to kick one off once it's back in view.
+      if (!isVisible) {
+        burstPending = false;
+        return;
+      }
+      burstPending = true;
       const delay = 1800 + Math.random() * 1800;
       burstTimeout = setTimeout(runBurst, delay);
     }
@@ -217,6 +226,12 @@ export default function GlitchImage({
       let holdUntil = 0;
 
       function step(ts: number) {
+        if (!isVisible) {
+          cancelAnimationFrame(raf);
+          drawClean();
+          burstPending = false;
+          return;
+        }
         if (start === null) start = ts;
         const elapsed = ts - start;
 
@@ -285,10 +300,22 @@ export default function GlitchImage({
 
     window.addEventListener("resize", resize);
 
+    const visibilityObserver = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = entry.isIntersecting;
+        if (isVisible && ready && !reduceMotion && !burstPending) {
+          scheduleBurst();
+        }
+      },
+      { threshold: 0 },
+    );
+    visibilityObserver.observe(canvas);
+
     return () => {
       cancelled = true;
       cancelAnimationFrame(raf);
       clearTimeout(burstTimeout);
+      visibilityObserver.disconnect();
       window.removeEventListener("resize", resize);
     };
   }, [src]);

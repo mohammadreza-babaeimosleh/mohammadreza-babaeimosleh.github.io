@@ -28,6 +28,8 @@ export default function CircuitBackground({
     let height = 0;
     let points: { x: number; y: number }[] = [];
     let raf = 0;
+    let isVisible = true;
+    let loopRunning = false;
 
     function resize() {
       const parent = canvas!.parentElement;
@@ -52,6 +54,7 @@ export default function CircuitBackground({
     }
 
     function onMouseMove(e: MouseEvent) {
+      if (!isVisible) return;
       const rect = canvas!.getBoundingClientRect();
       mouse.x = e.clientX - rect.left;
       mouse.y = e.clientY - rect.top;
@@ -106,6 +109,18 @@ export default function CircuitBackground({
         }
       }
 
+      // Only keep the loop going while the canvas is actually on
+      // screen — no point burning frames animating a grid nobody sees.
+      if (isVisible) {
+        raf = requestAnimationFrame(draw);
+      } else {
+        loopRunning = false;
+      }
+    }
+
+    function startLoop() {
+      if (loopRunning || reduceMotion) return;
+      loopRunning = true;
       raf = requestAnimationFrame(draw);
     }
 
@@ -114,15 +129,23 @@ export default function CircuitBackground({
     window.addEventListener("mousemove", onMouseMove);
     window.addEventListener("mouseleave", onMouseLeave);
 
+    const visibilityObserver = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = entry.isIntersecting;
+        if (isVisible) startLoop();
+      },
+      { threshold: 0 },
+    );
+    visibilityObserver.observe(canvas);
+
     if (reduceMotion) {
       draw();
       cancelAnimationFrame(raf);
-    } else {
-      raf = requestAnimationFrame(draw);
     }
 
     return () => {
       cancelAnimationFrame(raf);
+      visibilityObserver.disconnect();
       window.removeEventListener("resize", resize);
       window.removeEventListener("mousemove", onMouseMove);
       window.removeEventListener("mouseleave", onMouseLeave);
