@@ -122,16 +122,16 @@ export default function GlitchImage({
       ctx!.fillRect(0, 0, width, height);
 
       const phase = elapsed / 130;
-      const wobble = Math.sin(phase) * 12;
-      const jitterX = wobble + (Math.random() - 0.5) * 9;
-      const jitterY = (Math.random() - 0.5) * 6;
+      const wobble = Math.sin(phase) * 6;
+      const jitterX = wobble + (Math.random() - 0.5) * 5;
+      const jitterY = (Math.random() - 0.5) * 3;
 
       ctx!.globalAlpha = 0.9;
       ctx!.drawImage(img, sx, sy, sw, sh, jitterX, jitterY, width, height);
 
       // Chromatic phase split: red/cyan duotone layers drifting apart
       // and back together out of sync, like a signal losing lock.
-      const splitAmount = 8 + Math.abs(Math.sin(phase * 0.55)) * 18;
+      const splitAmount = 6 + Math.abs(Math.sin(phase * 0.55)) * 8;
       ctx!.globalCompositeOperation = "screen";
       ctx!.globalAlpha = 0.72;
       if (redLayer) {
@@ -246,8 +246,8 @@ export default function GlitchImage({
           }
           return;
         }
-        if (Math.random() < 0.1) {
-          holdUntil = ts + 60 + Math.random() * 90;
+        if (Math.random() < 0.04) {
+          holdUntil = ts + 40 + Math.random() * 50;
         }
 
         drawGlitchFrame(elapsed);
