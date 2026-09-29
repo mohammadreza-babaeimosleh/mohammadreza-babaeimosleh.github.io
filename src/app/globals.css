@@ -218,20 +218,11 @@ body {
   display: none;
 }
 
-@keyframes orbit-spin {
+@keyframes ring3d-spin {
   from {
-    transform: translate(-50%, -50%) rotate(0deg);
+    transform: rotateZ(0deg);
   }
   to {
-    transform: translate(-50%, -50%) rotate(360deg);
-  }
-}
-
-@keyframes orbit-spin-item {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
+    transform: rotateZ(360deg);
   }
 }

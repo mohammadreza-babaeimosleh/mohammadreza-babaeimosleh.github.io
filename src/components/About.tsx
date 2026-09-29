@@ -1,5 +1,5 @@
 import Reveal from "./Reveal";
-import OrbitingSkills from "./OrbitingSkills";
+import SkillsOrbit3D from "./SkillsOrbit3D";
 
 const SKILLS: { group: string; items: string[] }[] = [
   {
@@ -88,35 +88,34 @@ export default function About() {
                 AI/ML engineering, signal processing, or software engineering.
               </p>
             </div>
+
+            <div className="mt-10 hidden md:block">
+              <SkillsOrbit3D />
+              <p className="mt-4 text-center font-mono text-[10px] uppercase tracking-widest text-muted-foreground/60">
+                Hover to pause &middot; each orbit is a skill category
+              </p>
+            </div>
           </Reveal>
 
           <Reveal delay={200}>
-            <div className="lg:hidden">
-              <div className="grid gap-6 sm:grid-cols-2">
-                {SKILLS.map((group) => (
-                  <div key={group.group}>
-                    <h3 className="font-mono text-[11px] uppercase tracking-widest text-accent">
-                      {group.group}
-                    </h3>
-                    <ul className="mt-3 space-y-2">
-                      {group.items.map((item) => (
-                        <li
-                          key={item}
-                          className="border-b border-border pb-2 text-sm text-foreground"
-                        >
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="hidden lg:block">
-              <OrbitingSkills />
-              <p className="mt-6 text-center font-mono text-[10px] uppercase tracking-widest text-muted-foreground/60">
-                Hover to pause &middot; orbiting by category
-              </p>
+            <div className="grid gap-6 sm:grid-cols-2">
+              {SKILLS.map((group) => (
+                <div key={group.group}>
+                  <h3 className="font-mono text-[11px] uppercase tracking-widest text-accent">
+                    {group.group}
+                  </h3>
+                  <ul className="mt-3 space-y-2">
+                    {group.items.map((item) => (
+                      <li
+                        key={item}
+                        className="border-b border-border pb-2 text-sm text-foreground"
+                      >
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
             </div>
           </Reveal>
         </div>
