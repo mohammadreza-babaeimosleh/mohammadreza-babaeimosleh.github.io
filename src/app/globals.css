@@ -122,6 +122,36 @@ body {
   animation: electric-spin 2.6s linear infinite;
 }
 
+/*
+ * Compositor-driven variant for perfectly circular electric-border elements.
+ * The default .electric-border animates a registered custom property that
+ * feeds a conic-gradient, which forces a main-thread repaint every frame.
+ * Browsers (Safari in particular) can stall that repaint work while the
+ * main thread is busy handling scroll, so the light visibly freezes mid-
+ * scroll. Rotating the whole ring with `transform` instead runs on the
+ * compositor thread, independent of scroll work, and is visually identical
+ * for a circle since a circle is rotationally symmetric.
+ */
+@keyframes electric-spin-transform {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.electric-spin-transform::before {
+  background: conic-gradient(
+    from 0deg,
+    transparent 0%,
+    transparent 74%,
+    var(--accent) 86%,
+    #e8fff6 90%,
+    var(--accent) 94%,
+    transparent 100%
+  );
+  animation: electric-spin-transform 2.6s linear infinite;
+  will-change: transform;
+}
+
 @keyframes buzz-flicker {
   0%,
   100% {

@@ -143,7 +143,7 @@ export default function SkillsOrbit3D() {
           className="pointer-events-none absolute inset-0"
           style={{ transformStyle: "preserve-3d" }}
         >
-          <div className="electric-border absolute left-1/2 top-1/2 z-10 flex h-11 w-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-card">
+          <div className="electric-border electric-spin-transform absolute left-1/2 top-1/2 z-10 flex h-11 w-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-card">
             <Code2 className="h-4 w-4 text-accent" aria-hidden />
           </div>
 
