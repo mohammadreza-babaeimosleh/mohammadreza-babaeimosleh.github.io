@@ -23,9 +23,9 @@ export default function Hero() {
     >
       <CircuitBackground />
       <Spotlight className="w-full">
-        <div className="mx-auto grid max-w-6xl gap-12 px-6 py-20 md:grid-cols-[1.3fr_1fr] md:py-28">
+        <div className="mx-auto grid max-w-6xl gap-8 px-6 py-14 md:grid-cols-[1.3fr_1fr] md:py-11">
           <Reveal>
-            <p className="mb-6 inline-flex items-center gap-2 border border-border px-3 py-1 font-mono text-xs uppercase tracking-widest text-muted-foreground">
+            <p className="mb-3 inline-flex items-center gap-2 border border-border px-3 py-1 font-mono text-xs uppercase tracking-widest text-muted-foreground">
               <span className="h-2 w-2 rounded-full bg-accent animate-buzz" />
               Open to AI/ML, Signal Processing &amp; Software Engineering
               Positions
@@ -43,14 +43,14 @@ export default function Hero() {
                 duration={1350}
               />
             </h1>
-            <p className="mt-6 max-w-xl text-lg text-muted-foreground">
+            <p className="mt-3 max-w-xl text-lg text-muted-foreground">
               <TextScramble
                 text="ML engineer, software engineer & researcher building AI systems that ship — from LLM-powered platforms and RAG pipelines to software engineering, signal processing, and applied research."
                 startDelay={300}
                 duration={1400}
               />
             </p>
-            <p className="mt-2 max-w-xl font-mono text-sm text-muted-foreground">
+            <p className="mt-1 max-w-xl font-mono text-sm text-muted-foreground">
               <TextScramble
                 text="M2 student, Institut Polytechnique de Paris — Machine Learning, Communications & Security"
                 startDelay={550}
@@ -58,7 +58,7 @@ export default function Hero() {
               />
             </p>
 
-            <div className="mt-8 flex flex-wrap items-center gap-4">
+            <div className="mt-5 flex flex-wrap items-center gap-4">
               <MagneticButton>
                 <a
                   href="#work"
@@ -109,7 +109,7 @@ export default function Hero() {
           {STATS.map((stat) => (
             <div
               key={stat.label}
-              className="px-6 py-6 text-center md:text-left"
+              className="px-6 py-3 text-center md:text-left"
             >
               <dt className="font-display text-2xl font-bold sm:text-3xl">
                 <NumberTicker value={stat.value} />
