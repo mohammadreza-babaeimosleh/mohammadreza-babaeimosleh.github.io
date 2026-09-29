@@ -92,7 +92,7 @@ export default function About() {
             <div className="mt-10 hidden md:block">
               <SkillsOrbit3D />
               <p className="mt-4 text-center font-mono text-[10px] uppercase tracking-widest text-muted-foreground/60">
-                Hover to pause &middot; each orbit is a skill category
+                Each orbit is a skill category
               </p>
             </div>
           </Reveal>

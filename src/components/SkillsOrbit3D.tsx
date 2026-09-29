@@ -1,11 +1,39 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { Code2 } from "lucide-react";
+import { useEffect, useRef, useState, type ComponentType } from "react";
+import {
+  Code2,
+  Layers,
+  Sparkles,
+  MessageSquareText,
+  AudioWaveform,
+  TrendingUp,
+  Cpu,
+  HeartPulse,
+} from "lucide-react";
+import {
+  SiPython,
+  SiTypescript,
+  SiNextdotjs,
+  SiReact,
+  SiGnubash,
+  SiLangchain,
+  SiPytorch,
+  SiGooglecloud,
+  SiDocker,
+  SiKubernetes,
+  SiApachekafka,
+  SiPostgresql,
+} from "react-icons/si";
+import { FaAws } from "react-icons/fa6";
+
+type IconType = ComponentType<{ className?: string }>;
+
+type SkillItem = { label: string; Icon: IconType };
 
 type OrbitRing = {
   group: string;
-  items: string[];
+  items: SkillItem[];
   spreadDeg: number;
   scale: number;
   duration: number;
@@ -17,14 +45,26 @@ const TILT_DEG = 68;
 const RINGS: OrbitRing[] = [
   {
     group: "Languages",
-    items: ["Python", "TypeScript", "Next.js", "React", "Bash"],
+    items: [
+      { label: "Python", Icon: SiPython },
+      { label: "TypeScript", Icon: SiTypescript },
+      { label: "Next.js", Icon: SiNextdotjs },
+      { label: "React", Icon: SiReact },
+      { label: "Bash", Icon: SiGnubash },
+    ],
     spreadDeg: 0,
     scale: 1,
     duration: 22,
   },
   {
     group: "AI & ML",
-    items: ["LangChain", "LlamaIndex", "RAG", "PyTorch", "Prompt Eng."],
+    items: [
+      { label: "LangChain", Icon: SiLangchain },
+      { label: "LlamaIndex", Icon: Layers },
+      { label: "RAG", Icon: Sparkles },
+      { label: "PyTorch", Icon: SiPytorch },
+      { label: "Prompt Engineering", Icon: MessageSquareText },
+    ],
     spreadDeg: 45,
     scale: 0.86,
     duration: 30,
@@ -32,14 +72,26 @@ const RINGS: OrbitRing[] = [
   },
   {
     group: "Infrastructure",
-    items: ["GCP", "AWS", "Docker", "K8s", "Kafka", "Postgres"],
+    items: [
+      { label: "GCP", Icon: SiGooglecloud },
+      { label: "AWS", Icon: FaAws },
+      { label: "Docker", Icon: SiDocker },
+      { label: "Kubernetes", Icon: SiKubernetes },
+      { label: "Kafka", Icon: SiApachekafka },
+      { label: "PostgreSQL", Icon: SiPostgresql },
+    ],
     spreadDeg: 90,
     scale: 0.72,
     duration: 38,
   },
   {
     group: "Signal & Embedded",
-    items: ["Signal Proc.", "Time-Series", "Embedded/IoT", "Biomedical"],
+    items: [
+      { label: "Signal Processing", Icon: AudioWaveform },
+      { label: "Time-Series Analysis", Icon: TrendingUp },
+      { label: "Embedded / IoT", Icon: Cpu },
+      { label: "Biomedical Signals", Icon: HeartPulse },
+    ],
     spreadDeg: 135,
     scale: 0.58,
     duration: 46,
@@ -49,7 +101,6 @@ const RINGS: OrbitRing[] = [
 
 export default function SkillsOrbit3D() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [isHovering, setIsHovering] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [reduceMotion] = useState(
     () =>
@@ -68,13 +119,11 @@ export default function SkillsOrbit3D() {
     return () => observer.disconnect();
   }, []);
 
-  const paused = reduceMotion || !isVisible || isHovering;
+  const paused = reduceMotion || !isVisible;
 
   return (
     <div
       ref={containerRef}
-      onMouseEnter={() => setIsHovering(true)}
-      onMouseLeave={() => setIsHovering(false)}
       className="relative mx-auto aspect-square w-full max-w-[300px]"
       style={{ perspective: "1200px" }}
     >
@@ -131,9 +180,10 @@ export default function SkillsOrbit3D() {
                     const rad = (angle * Math.PI) / 180;
                     const x = 50 + 50 * Math.cos(rad);
                     const y = 50 + 50 * Math.sin(rad);
+                    const Icon = item.Icon;
                     return (
                       <div
-                        key={item}
+                        key={item.label}
                         className="absolute -translate-x-1/2 -translate-y-1/2"
                         style={{
                           left: `${x}%`,
@@ -164,12 +214,15 @@ export default function SkillsOrbit3D() {
                           >
                             <span
                               style={{
-                                display: "block",
+                                display: "flex",
                                 transform: `rotateZ(${-ring.spreadDeg}deg)`,
                               }}
-                              className="whitespace-nowrap border border-border bg-background/90 px-2 py-1 font-mono text-[10px] uppercase tracking-wide text-muted-foreground backdrop-blur-sm transition-colors hover:border-accent hover:text-accent"
+                              title={item.label}
+                              aria-label={item.label}
+                              role="img"
+                              className="h-8 w-8 items-center justify-center rounded-md border border-border bg-background/90 text-muted-foreground backdrop-blur-sm transition-colors hover:border-accent hover:text-accent"
                             >
-                              {item}
+                              <Icon className="h-4 w-4" />
                             </span>
                           </div>
                         </div>
