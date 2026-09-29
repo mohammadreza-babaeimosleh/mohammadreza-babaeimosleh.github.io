@@ -58,7 +58,7 @@ export default function Hero() {
               />
             </p>
 
-            <div className="mt-8 flex flex-wrap gap-4">
+            <div className="mt-8 flex flex-wrap items-center gap-4">
               <MagneticButton>
                 <a
                   href="#work"
@@ -75,6 +75,15 @@ export default function Hero() {
                   Get In Touch
                 </a>
               </MagneticButton>
+              <div
+                className="h-14 w-14 shrink-0 sm:h-16 sm:w-16"
+                title="Career path across cities I've worked in — drag to explore"
+              >
+                <LocationGlobe
+                  locations={GLOBE_LOCATIONS}
+                  className="h-full w-full"
+                />
+              </div>
             </div>
           </Reveal>
 
@@ -90,12 +99,6 @@ export default function Hero() {
               />
               <GlitchImage src="/mohammad-photo.png" />
               <div className="absolute -bottom-3 -right-3 h-full w-full border border-accent/40 -z-10" />
-              <div className="absolute -bottom-5 -left-5 z-10 h-28 w-28 border border-accent/50 bg-background shadow-lg sm:h-32 sm:w-32">
-                <LocationGlobe
-                  locations={GLOBE_LOCATIONS}
-                  className="h-full w-full"
-                />
-              </div>
             </div>
           </Reveal>
         </div>
