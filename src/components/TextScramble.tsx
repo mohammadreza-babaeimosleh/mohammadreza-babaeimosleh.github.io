@@ -2,7 +2,11 @@
 
 import { useEffect, useState } from "react";
 
-const GLYPHS = "!<>-_\\/[]{}=+*^?#01アイウエオカキクケコ";
+// ASCII-only on purpose: mixing in CJK glyphs here forces the browser
+// to fall back to a different system font for those characters, and
+// that font's line metrics differ from the display font's, which made
+// the whole line visibly bob up and down while scrambling.
+const GLYPHS = "!<>-_\\/[]{}=+*^?#01";
 
 export default function TextScramble({
   text,
