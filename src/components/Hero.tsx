@@ -6,6 +6,8 @@ import TextScramble from "./TextScramble";
 import GlitchImage from "./GlitchImage";
 import NumberTicker from "./NumberTicker";
 import MagneticButton from "./MagneticButton";
+import LocationGlobe from "./LocationGlobe";
+import { GLOBE_LOCATIONS } from "@/lib/globeLocations";
 
 const STATS = [
   { value: "3+", label: "Work Experience" },
@@ -88,6 +90,12 @@ export default function Hero() {
               />
               <GlitchImage src="/mohammad-photo.png" />
               <div className="absolute -bottom-3 -right-3 h-full w-full border border-accent/40 -z-10" />
+              <div className="absolute -bottom-5 -left-5 z-10 h-28 w-28 border border-accent/50 bg-background shadow-lg sm:h-32 sm:w-32">
+                <LocationGlobe
+                  locations={GLOBE_LOCATIONS}
+                  className="h-full w-full"
+                />
+              </div>
             </div>
           </Reveal>
         </div>
