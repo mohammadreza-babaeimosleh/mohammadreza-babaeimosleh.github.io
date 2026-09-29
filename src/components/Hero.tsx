@@ -76,7 +76,7 @@ export default function Hero() {
                 </a>
               </MagneticButton>
               <div
-                className="h-14 w-14 shrink-0 sm:h-16 sm:w-16"
+                className="h-[140px] w-[140px] shrink-0 sm:h-[160px] sm:w-[160px]"
                 title="Career path across cities I've worked in — drag to explore"
               >
                 <LocationGlobe
