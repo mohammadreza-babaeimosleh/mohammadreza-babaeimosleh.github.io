@@ -1,4 +1,5 @@
 import Reveal from "./Reveal";
+import OrbitingSkills from "./OrbitingSkills";
 
 const SKILLS: { group: string; items: string[] }[] = [
   {
@@ -56,10 +57,9 @@ export default function About() {
           </p>
           <h2 className="mt-3 font-display text-3xl font-bold tracking-tight sm:text-4xl">
             Software Engineering{" "}
-            <span className="text-muted-foreground">/</span> AI/ML
-            Engineering <span className="text-muted-foreground">/</span>{" "}
-            Signal Processing <span className="text-muted-foreground">/</span>{" "}
-            Applied Research
+            <span className="text-muted-foreground">/</span> AI/ML Engineering{" "}
+            <span className="text-muted-foreground">/</span> Signal Processing{" "}
+            <span className="text-muted-foreground">/</span> Applied Research
           </h2>
         </Reveal>
 
@@ -72,45 +72,51 @@ export default function About() {
                   Institut Polytechnique de Paris
                 </span>
                 , specializing in Machine Learning, Communications &amp;
-                Security, with 3+ years of professional experience spanning
-                AI engineering, full-stack development, and signal &amp;
+                Security, with 3+ years of professional experience spanning AI
+                engineering, full-stack development, and signal &amp;
                 information processing.
               </p>
               <p>
                 I&rsquo;ve architected LLM-powered platforms with agentic
-                workflows and RAG pipelines, led teams of engineers, and
-                shipped scalable backend systems on GCP and AWS. My research
-                sits at the intersection of machine learning and signal
-                processing.
+                workflows and RAG pipelines, led teams of engineers, and shipped
+                scalable backend systems on GCP and AWS. My research sits at the
+                intersection of machine learning and signal processing.
               </p>
               <p>
                 I care about systems that work in production, not just in a
                 notebook — and I&rsquo;m currently looking for a position in
-                AI/ML engineering, signal processing, or software
-                engineering.
+                AI/ML engineering, signal processing, or software engineering.
               </p>
             </div>
           </Reveal>
 
           <Reveal delay={200}>
-            <div className="grid gap-6 sm:grid-cols-2">
-              {SKILLS.map((group) => (
-                <div key={group.group}>
-                  <h3 className="font-mono text-[11px] uppercase tracking-widest text-accent">
-                    {group.group}
-                  </h3>
-                  <ul className="mt-3 space-y-2">
-                    {group.items.map((item) => (
-                      <li
-                        key={item}
-                        className="border-b border-border pb-2 text-sm text-foreground"
-                      >
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
+            <div className="lg:hidden">
+              <div className="grid gap-6 sm:grid-cols-2">
+                {SKILLS.map((group) => (
+                  <div key={group.group}>
+                    <h3 className="font-mono text-[11px] uppercase tracking-widest text-accent">
+                      {group.group}
+                    </h3>
+                    <ul className="mt-3 space-y-2">
+                      {group.items.map((item) => (
+                        <li
+                          key={item}
+                          className="border-b border-border pb-2 text-sm text-foreground"
+                        >
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="hidden lg:block">
+              <OrbitingSkills />
+              <p className="mt-6 text-center font-mono text-[10px] uppercase tracking-widest text-muted-foreground/60">
+                Hover to pause &middot; orbiting by category
+              </p>
             </div>
           </Reveal>
         </div>
