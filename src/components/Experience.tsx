@@ -1,4 +1,5 @@
 import Reveal from "./Reveal";
+import LocationGlobe from "./LocationGlobe";
 
 const EXPERIENCE = [
   {
@@ -47,6 +48,30 @@ const EXPERIENCE = [
   },
 ];
 
+// Chronological order (earliest first) so the globe's career-path
+// arcs trace the actual journey rather than the résumé's reverse order.
+const GLOBE_LOCATIONS = [
+  {
+    name: "Heverlee, Belgium",
+    role: "IthermAI · 2022",
+    lat: 50.8798,
+    lon: 4.6875,
+  },
+  { name: "Tehran, Iran", role: "NikTed · 2023", lat: 35.6892, lon: 51.389 },
+  {
+    name: "Dubai, UAE",
+    role: "PropertyGPT · 2023–26",
+    lat: 25.2048,
+    lon: 55.2708,
+  },
+  {
+    name: "Paris, France",
+    role: "SAMOVAR Lab · 2026",
+    lat: 48.8566,
+    lon: 2.3522,
+  },
+];
+
 const EDUCATION = [
   {
     degree: "M2, Information Processing — ML, Communications & Security",
@@ -70,21 +95,29 @@ export default function Experience() {
     <section id="experience" className="border-b border-border">
       <div className="mx-auto max-w-6xl px-6 py-20 md:py-28">
         <Reveal>
-          <div className="flex flex-wrap items-end justify-between gap-4">
-            <div>
-              <p className="font-mono text-xs uppercase tracking-widest text-accent">
-                03 — Experience
-              </p>
-              <h2 className="mt-3 font-display text-3xl font-bold tracking-tight sm:text-4xl">
-                Where I&rsquo;ve worked.
-              </h2>
+          <div className="grid gap-10 md:grid-cols-[1fr_240px] md:items-center">
+            <div className="flex flex-wrap items-end justify-between gap-4">
+              <div>
+                <p className="font-mono text-xs uppercase tracking-widest text-accent">
+                  03 — Experience
+                </p>
+                <h2 className="mt-3 font-display text-3xl font-bold tracking-tight sm:text-4xl">
+                  Where I&rsquo;ve worked.
+                </h2>
+              </div>
+              <a
+                href="/Mohammad-Reza-Babaei-Mosleh-CV.pdf"
+                className="border border-accent bg-accent px-6 py-3 font-mono text-xs uppercase tracking-widest text-accent-foreground transition-opacity hover:opacity-90"
+              >
+                Download Full Résumé
+              </a>
             </div>
-            <a
-              href="/Mohammad-Reza-Babaei-Mosleh-CV.pdf"
-              className="border border-accent bg-accent px-6 py-3 font-mono text-xs uppercase tracking-widest text-accent-foreground transition-opacity hover:opacity-90"
-            >
-              Download Full Résumé
-            </a>
+            <div className="mx-auto w-full max-w-[240px] md:mx-0 md:ml-auto">
+              <LocationGlobe locations={GLOBE_LOCATIONS} />
+              <p className="mt-2 text-center font-mono text-[10px] uppercase tracking-widest text-muted-foreground/60">
+                4 cities · 3 countries · drag to explore
+              </p>
+            </div>
           </div>
         </Reveal>
 
