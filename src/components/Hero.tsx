@@ -40,9 +40,9 @@ export default function Hero() {
               />
             </h1>
             <p className="mt-6 max-w-xl text-lg text-muted-foreground">
-              ML engineer &amp; researcher building AI systems that ship — from
-              LLM-powered platforms and RAG pipelines to software engineering,
-              signal processing, and applied research.
+              ML engineer, software engineer &amp; researcher building AI
+              systems that ship — from LLM-powered platforms and RAG pipelines
+              to software engineering, signal processing, and applied research.
             </p>
             <p className="mt-2 max-w-xl font-mono text-sm text-muted-foreground">
               M2 student, Institut Polytechnique de Paris — Machine Learning,
