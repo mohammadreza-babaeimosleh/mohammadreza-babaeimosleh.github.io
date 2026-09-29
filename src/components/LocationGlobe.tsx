@@ -128,7 +128,7 @@ export default function LocationGlobe({
       lastTs = ts;
 
       if (!reduceMotion && !isDragging) {
-        autoRotation += dt * 0.008; // slow, steady spin
+        autoRotation += dt * 0.02; // 2.5x the original slow spin
       }
       const totalRotation = autoRotation + dragRotation;
 
