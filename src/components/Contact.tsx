@@ -1,4 +1,5 @@
 import Reveal from "./Reveal";
+import SonicWaveform from "./SonicWaveform";
 
 const LINKS = [
   {
@@ -31,14 +32,20 @@ export default function Contact() {
             talent? Let&rsquo;s talk.
           </h2>
           <p className="mt-4 max-w-xl text-muted-foreground">
-            Open to AI/ML, signal processing, and software engineering
-            positions across France and the EU, starting spring. Reach out
-            directly — I read every message.
+            Open to AI/ML, signal processing, and software engineering positions
+            across France and the EU, starting spring. Reach out directly — I
+            read every message.
           </p>
         </Reveal>
 
         <Reveal delay={150}>
-          <div className="mt-10 grid gap-0 border-t border-border sm:grid-cols-3">
+          <div className="mt-10 border-t border-border pt-8">
+            <SonicWaveform />
+          </div>
+        </Reveal>
+
+        <Reveal delay={250}>
+          <div className="mt-2 grid gap-0 border-t border-border sm:grid-cols-3">
             {LINKS.map((link) => (
               <a
                 key={link.label}
