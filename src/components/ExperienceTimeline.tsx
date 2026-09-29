@@ -1,6 +1,13 @@
 "use client";
 
-import { useState, useRef, type KeyboardEvent } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type FocusEvent,
+  type KeyboardEvent,
+} from "react";
+import { MousePointerClick } from "lucide-react";
 
 export type TimelineJob = {
   role: string;
@@ -11,9 +18,42 @@ export type TimelineJob = {
   bullets: string[];
 };
 
+const AUTOPLAY_DELAY_MS = 4000;
+
 export default function ExperienceTimeline({ jobs }: { jobs: TimelineJob[] }) {
   const [activeIndex, setActiveIndex] = useState(jobs.length - 1);
+  const [isPaused, setIsPaused] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const [reduceMotion] = useState(
+    () =>
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+  );
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // Pause the autoplay loop while off-screen so it doesn't spin in the background.
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsVisible(entry.isIntersecting),
+      { threshold: 0.3 },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  // Loop through the milestones automatically; pause on hover/focus, off-screen,
+  // or when the viewer prefers reduced motion. Restarting on every activeIndex
+  // change means a manual click naturally resets the timer instead of racing it.
+  useEffect(() => {
+    if (reduceMotion || !isVisible || isPaused || jobs.length < 2) return;
+    const timer = setTimeout(() => {
+      setActiveIndex((i) => (i + 1) % jobs.length);
+    }, AUTOPLAY_DELAY_MS);
+    return () => clearTimeout(timer);
+  }, [activeIndex, isVisible, isPaused, reduceMotion, jobs.length]);
 
   function focusTab(index: number) {
     const clamped = Math.max(0, Math.min(jobs.length - 1, index));
@@ -40,12 +80,32 @@ export default function ExperienceTimeline({ jobs }: { jobs: TimelineJob[] }) {
     }
   }
 
+  function handleSelect(index: number) {
+    setActiveIndex(index);
+  }
+
   const active = jobs[activeIndex];
   const progressPct =
     jobs.length > 1 ? (activeIndex / (jobs.length - 1)) * 100 : 0;
 
   return (
-    <div className="mt-10">
+    <div
+      ref={containerRef}
+      className="mt-10"
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+      onFocus={() => setIsPaused(true)}
+      onBlur={(event: FocusEvent<HTMLDivElement>) => {
+        if (!event.currentTarget.contains(event.relatedTarget)) {
+          setIsPaused(false);
+        }
+      }}
+    >
+      <p className="mb-3 flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-widest text-muted-foreground/60">
+        <MousePointerClick className="h-3 w-3 text-accent" aria-hidden />
+        Click a milestone to explore
+      </p>
+
       <div className="no-scrollbar overflow-x-auto">
         <div
           role="tablist"
@@ -77,7 +137,7 @@ export default function ExperienceTimeline({ jobs }: { jobs: TimelineJob[] }) {
                 aria-selected={isActive}
                 aria-controls="timeline-panel"
                 tabIndex={isActive ? 0 : -1}
-                onClick={() => setActiveIndex(i)}
+                onClick={() => handleSelect(i)}
                 onKeyDown={(event) => handleKeyDown(event, i)}
                 className="group relative z-10 flex flex-1 flex-col items-center gap-3 text-center focus:outline-none"
               >
