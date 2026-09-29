@@ -32,7 +32,7 @@ const PROJECTS: Project[] = [
   {
     title: "BeforeAI.io",
     period: "2025",
-    status: "Shipped",
+    status: "Production",
     link: "https://beforeai.io",
     description:
       "White-label platform bringing virtual try-on, AI styling, and an AI studio to fashion retailers of any size.",
