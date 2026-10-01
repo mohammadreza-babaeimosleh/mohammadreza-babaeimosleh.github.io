@@ -276,21 +276,3 @@ body {
     var(--background)
   );
 }
-
-/* Sonic waveform — ambient signal visualization for the Contact section */
-@keyframes waveform-pulse {
-  0%,
-  100% {
-    transform: scaleY(var(--base-scale, 0.3));
-  }
-  50% {
-    transform: scaleY(1);
-  }
-}
-
-.waveform-bar {
-  transform-origin: center;
-  animation-name: waveform-pulse;
-  animation-timing-function: ease-in-out;
-  animation-iteration-count: infinite;
-}
