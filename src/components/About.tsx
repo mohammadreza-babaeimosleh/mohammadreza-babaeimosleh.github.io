@@ -89,7 +89,8 @@ export default function About() {
               </p>
             </div>
 
-            <div className="mt-10 hidden md:block">
+            {/* Decorative: the skills list alongside carries the same content. */}
+            <div aria-hidden className="mt-10 hidden md:block">
               <SkillsOrbit3D />
             </div>
           </Reveal>

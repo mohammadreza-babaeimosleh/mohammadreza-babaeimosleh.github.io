@@ -20,16 +20,14 @@ export default function TextScramble({
   startDelay?: number;
 }) {
   const [display, setDisplay] = useState(text);
+  const [animating, setAnimating] = useState(false);
 
   useEffect(() => {
     const reduceMotion =
       typeof window !== "undefined" &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    if (reduceMotion) {
-      setDisplay(text);
-      return;
-    }
+    if (reduceMotion) return;
 
     let raf = 0;
     const len = text.length;
@@ -55,10 +53,12 @@ export default function TextScramble({
         raf = requestAnimationFrame((next) => frame(startTime, next));
       } else {
         setDisplay(text);
+        setAnimating(false);
       }
     }
 
     const timeout = setTimeout(() => {
+      setAnimating(true);
       raf = requestAnimationFrame((ts) => frame(ts, ts));
     }, startDelay);
 
@@ -68,5 +68,11 @@ export default function TextScramble({
     };
   }, [text, duration, startDelay]);
 
-  return <span className={className}>{display}</span>;
+  // While glyphs are scrambling they are decorative; assistive tech reads the real text.
+  return (
+    <span className={className}>
+      {animating && <span className="sr-only">{text}</span>}
+      <span aria-hidden={animating || undefined}>{display}</span>
+    </span>
+  );
 }

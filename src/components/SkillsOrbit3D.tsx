@@ -191,8 +191,9 @@ export default function SkillsOrbit3D() {
                     {ring.items.map((item, i) => {
                       const angle = (360 / ring.items.length) * i;
                       const rad = (angle * Math.PI) / 180;
-                      const x = 50 + 50 * Math.cos(rad);
-                      const y = 50 + 50 * Math.sin(rad);
+                      // Rounded so the server and client serialize identical styles.
+                      const x = (50 + 50 * Math.cos(rad)).toFixed(3);
+                      const y = (50 + 50 * Math.sin(rad)).toFixed(3);
                       const Icon = item.Icon;
                       return (
                         <div

@@ -2,6 +2,7 @@ import Reveal from "./Reveal";
 import LocationGlobe from "./LocationGlobe";
 import ExperienceTimeline, { type TimelineJob } from "./ExperienceTimeline";
 import { GLOBE_LOCATIONS } from "@/lib/globeLocations";
+import { SITE } from "@/lib/site";
 
 const EXPERIENCE: TimelineJob[] = [
   {
@@ -84,7 +85,7 @@ export default function Experience() {
                 </h2>
               </div>
               <a
-                href="/Mohammad-Reza-Babaei-Mosleh-CV.pdf"
+                href={SITE.cv}
                 className="border border-accent bg-accent px-6 py-3 font-mono text-xs uppercase tracking-widest text-accent-foreground transition-opacity hover:opacity-90"
               >
                 Download Full Résumé

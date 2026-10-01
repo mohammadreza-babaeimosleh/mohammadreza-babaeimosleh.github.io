@@ -160,6 +160,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
                 className="inline-flex items-center gap-1.5 underline decoration-border decoration-2 underline-offset-4 transition-colors hover:text-accent hover:decoration-accent"
               >
                 {project.title}
+                <span className="sr-only"> (opens in a new tab)</span>
                 <svg
                   aria-hidden
                   viewBox="0 0 24 24"

@@ -24,29 +24,26 @@ export default function NumberTicker({
   const ref = useRef<HTMLSpanElement>(null);
   const parsed = splitValue(value);
   const [display, setDisplay] = useState(value);
+  const [animating, setAnimating] = useState(false);
 
   useEffect(() => {
-    if (!parsed) {
-      setDisplay(value);
-      return;
-    }
+    if (!parsed) return;
     const [prefix, target, suffix] = parsed;
 
     const prefersReducedMotion =
       typeof window !== "undefined" &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    if (prefersReducedMotion) {
-      setDisplay(value);
-      return;
-    }
-
-    setDisplay(`${prefix}0${suffix}`);
+    if (prefersReducedMotion) return;
 
     const node = ref.current;
     if (!node) return;
 
-    let frame: number;
+    // Start from zero once hydrated; the server-rendered markup keeps the real value.
+    let frame = requestAnimationFrame(() => {
+      setAnimating(true);
+      setDisplay(`${prefix}0${suffix}`);
+    });
     let hasStarted = false;
 
     const runAnimation = () => {
@@ -58,6 +55,8 @@ export default function NumberTicker({
         setDisplay(`${prefix}${current}${suffix}`);
         if (progress < 1) {
           frame = requestAnimationFrame(step);
+        } else {
+          setAnimating(false);
         }
       };
       frame = requestAnimationFrame(step);
@@ -84,7 +83,8 @@ export default function NumberTicker({
 
   return (
     <span ref={ref} className={className}>
-      {display}
+      {animating && <span className="sr-only">{value}</span>}
+      <span aria-hidden={animating || undefined}>{display}</span>
     </span>
   );
 }

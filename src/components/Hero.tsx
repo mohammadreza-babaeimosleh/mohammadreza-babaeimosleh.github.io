@@ -30,7 +30,7 @@ export default function Hero() {
               Open to AI/ML, Signal Processing &amp; Software Engineering
               Positions
             </p>
-            <h1 className="font-display text-5xl font-bold leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl">
+            <h1 className="font-display text-[2.5rem] font-bold leading-[1.05] tracking-tight min-[400px]:text-5xl sm:text-6xl lg:text-7xl">
               <TextScramble
                 text="Mohammad Reza"
                 className="block"
@@ -76,8 +76,10 @@ export default function Hero() {
                 </a>
               </MagneticButton>
               <div
-                className="h-[140px] w-[140px] shrink-0 sm:h-[160px] sm:w-[160px]"
+                role="img"
+                aria-label="Interactive globe showing the cities I've worked in"
                 title="Career path across cities I've worked in — drag to explore"
+                className="h-[140px] w-[140px] shrink-0 sm:h-[160px] sm:w-[160px]"
               >
                 <LocationGlobe
                   locations={GLOBE_LOCATIONS}
@@ -90,14 +92,14 @@ export default function Hero() {
           <Reveal delay={150}>
             <div className="electric-border relative mx-auto aspect-[4/5] w-full max-w-xs border border-border bg-card md:ml-auto">
               <Image
-                src="/mohammad-photo.png"
-                alt="Mohammad Reza Babaei Mosleh"
+                src="/mohammad-photo.jpg"
+                alt="Portrait of Mohammad Reza Babaei Mosleh"
                 fill
                 sizes="(min-width: 768px) 320px, 80vw"
                 className="object-cover"
                 priority
               />
-              <GlitchImage src="/mohammad-photo.png" />
+              <GlitchImage src="/mohammad-photo.jpg" />
               <div className="absolute -bottom-3 -right-3 h-full w-full border border-accent/40 -z-10" />
             </div>
           </Reveal>

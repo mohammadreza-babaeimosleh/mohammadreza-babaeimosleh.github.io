@@ -1,20 +1,24 @@
 import Reveal from "./Reveal";
+import { SITE } from "@/lib/site";
 
 const LINKS = [
   {
     label: "Email",
-    value: "babaeimoslehmohammadreza@gmail.com",
-    href: "mailto:babaeimoslehmohammadreza@gmail.com",
+    value: SITE.email,
+    href: `mailto:${SITE.email}`,
+    external: false,
   },
   {
     label: "LinkedIn",
     value: "linkedin.com/in/mohammadreza-babaei-mosleh",
-    href: "https://linkedin.com/in/mohammadreza-babaei-mosleh",
+    href: SITE.linkedin,
+    external: true,
   },
   {
     label: "GitHub",
     value: "github.com/mohammadreza-babaeimosleh",
-    href: "https://github.com/mohammadreza-babaeimosleh",
+    href: SITE.github,
+    external: true,
   },
 ];
 
@@ -31,40 +35,40 @@ export default function Contact() {
             talent? Let&rsquo;s talk.
           </h2>
           <p className="mt-4 max-w-xl text-muted-foreground">
-            Open to AI/ML, signal processing, and software engineering
-            positions across France and the EU, starting spring. Reach out
-            directly — I read every message.
+            Open to AI/ML, signal processing, and software engineering positions
+            across France and the EU, starting spring. Reach out directly — I
+            read every message.
           </p>
         </Reveal>
 
         <Reveal delay={150}>
-          <div className="mt-10 grid gap-0 border-t border-border sm:grid-cols-3">
+          <ul className="mt-10 grid gap-0 border-t border-border sm:grid-cols-3">
             {LINKS.map((link) => (
-              <a
+              <li
                 key={link.label}
-                href={link.href}
-                target={link.label !== "Email" ? "_blank" : undefined}
-                rel={link.label !== "Email" ? "noreferrer" : undefined}
-                className="group border-b border-r border-border p-6 transition-colors last:border-r-0 hover:bg-card sm:border-b-0"
+                className="border-b border-border sm:border-r sm:last:border-r-0"
               >
-                <p className="font-mono text-[11px] uppercase tracking-widest text-accent">
-                  {link.label}
-                </p>
-                <p className="mt-2 break-words text-sm text-foreground transition-colors group-hover:text-accent">
-                  {link.value}
-                </p>
-              </a>
+                <a
+                  href={link.href}
+                  target={link.external ? "_blank" : undefined}
+                  rel={link.external ? "noopener noreferrer" : undefined}
+                  className="group block h-full p-6 transition-colors hover:bg-card"
+                >
+                  <p className="font-mono text-[11px] uppercase tracking-widest text-accent">
+                    {link.label}
+                  </p>
+                  <p className="mt-2 break-words text-sm text-foreground transition-colors group-hover:text-accent">
+                    {link.value}
+                    {link.external && (
+                      <span className="sr-only"> (opens in a new tab)</span>
+                    )}
+                  </p>
+                </a>
+              </li>
             ))}
-          </div>
+          </ul>
         </Reveal>
       </div>
-
-      <footer className="border-t border-border">
-        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-2 px-6 py-8 font-mono text-[11px] uppercase tracking-widest text-muted-foreground sm:flex-row">
-          <p>&copy; {new Date().getFullYear()} Mohammad Reza Babaei Mosleh</p>
-          <p>Built with Next.js &amp; Tailwind CSS</p>
-        </div>
-      </footer>
     </section>
   );
 }
