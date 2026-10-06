@@ -36,7 +36,7 @@ const PROJECTS: Project[] = [
   },
   {
     title: "BeforeAI.io",
-    period: "2025",
+    period: "2026",
     status: "Production",
     link: "https://beforeai.io",
     description:
