@@ -315,3 +315,540 @@ body {
     var(--background)
   );
 }
+
+/* Film grain: breaks up the flat black so large dark areas read as a surface. */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  pointer-events: none;
+  opacity: 0.07;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.6 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Signal rail — the scroll-driven circuit trace in the left gutter */
+.signal-rail {
+  /* Hug the content column; never closer than 1.25rem to the viewport edge. */
+  left: max(1.25rem, calc((100vw - 72rem) / 2 - 4rem));
+  animation: signal-rail-in 0.8s ease-out 1.6s both;
+}
+
+@keyframes signal-rail-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.signal-rail path {
+  stroke-width: 1.5;
+}
+
+/*
+ * The charged trace sits in a clipping box. The box slides down as the page
+ * scrolls while its content slides up by the same amount, so the trace stays
+ * still and is simply uncovered. Only transforms move, which keeps the whole
+ * rail on the compositor.
+ */
+.signal-rail-clip {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  transform: translateY(-100%);
+  will-change: transform;
+}
+
+.signal-rail-charge {
+  height: 100%;
+  transform: translateY(100%);
+  will-change: transform;
+  filter: drop-shadow(0 0 4px rgba(0, 227, 154, 0.7));
+}
+
+.signal-bar {
+  transform: scaleX(0);
+  will-change: transform;
+}
+
+.signal-rail-head {
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background: #e8fff6;
+  box-shadow:
+    0 0 6px 2px rgba(0, 227, 154, 0.9),
+    0 0 18px 6px rgba(0, 227, 154, 0.35);
+  will-change: transform;
+}
+
+.signal-rail-pad {
+  width: 9px;
+  height: 9px;
+  border: 1.5px solid var(--border);
+  background: var(--background);
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease,
+    transform 0.3s ease;
+}
+
+.signal-rail-pad.is-reached {
+  border-color: var(--accent);
+  background: var(--accent);
+}
+
+.signal-rail-pad.is-active {
+  transform: rotate(45deg) scale(1.25);
+  box-shadow: 0 0 0 4px rgba(0, 227, 154, 0.18);
+}
+
+a:hover > .signal-rail-pad {
+  border-color: var(--foreground);
+}
+
+/* Tooltip on hover; from 2xl up the gutter is wide enough to keep labels visible. */
+.signal-rail-label {
+  position: absolute;
+  left: calc(100% + 0.5rem);
+  white-space: nowrap;
+  border: 1px solid var(--border);
+  background: var(--card);
+  padding: 0.25rem 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity 0.2s ease,
+    color 0.3s ease;
+}
+
+a:hover > .signal-rail-label {
+  opacity: 1;
+}
+
+@media (min-width: 96rem) {
+  .signal-rail-label {
+    left: auto;
+    right: calc(100% + 0.5rem);
+    border: 0;
+    background: none;
+    padding: 0;
+    opacity: 1;
+  }
+}
+
+/* Footer wordmark — outlined, then charged with the accent as the page ends */
+.footer-wordmark {
+  position: relative;
+  container-type: inline-size;
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 0.8;
+}
+
+.footer-wordmark-outline,
+.footer-wordmark-fill {
+  display: block;
+  font-size: 29.5cqw;
+  white-space: nowrap;
+  -webkit-text-stroke: 2px var(--border);
+  paint-order: stroke fill;
+}
+
+.footer-wordmark-outline {
+  color: var(--background);
+}
+
+.footer-wordmark-fill {
+  position: absolute;
+  inset: 0;
+  color: color-mix(in srgb, var(--accent) 16%, var(--background));
+  -webkit-text-stroke: 3px var(--accent);
+  will-change: clip-path;
+}
+
+/* Same accent full stop as the logo in the header. */
+.footer-wordmark-dot {
+  color: var(--accent);
+}
+
+/* Skills list <-> orbit: pointing at a group lights its ring and dims the rest */
+.skill-group-marker {
+  width: 7px;
+  height: 7px;
+  background: var(--chip-color);
+}
+
+.skill-group-title {
+  color: var(--chip-color);
+}
+
+.skill-group li {
+  transition:
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.skill-group:hover li {
+  border-color: color-mix(in srgb, var(--chip-color) 45%, var(--border));
+}
+
+.skills-scope .skill-chip,
+.skills-scope .ring-outline,
+.skills-scope .skill-group {
+  transition:
+    opacity 0.25s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    background-color 0.2s ease,
+    box-shadow 0.25s ease;
+}
+
+.skills-scope:has(.skill-group:hover) .skill-chip,
+.skills-scope:has(.skill-group:hover) .ring-outline,
+.skills-scope:has(.skill-chip:hover) .skill-group {
+  opacity: 0.25;
+}
+
+.skills-scope:has(.skill-group[data-skill-group="0"]:hover) [data-group="0"],
+.skills-scope:has(.skill-group[data-skill-group="1"]:hover) [data-group="1"],
+.skills-scope:has(.skill-group[data-skill-group="2"]:hover) [data-group="2"],
+.skills-scope:has(.skill-group[data-skill-group="3"]:hover) [data-group="3"],
+.skills-scope:has(.skill-chip[data-group="0"]:hover) [data-skill-group="0"],
+.skills-scope:has(.skill-chip[data-group="1"]:hover) [data-skill-group="1"],
+.skills-scope:has(.skill-chip[data-group="2"]:hover) [data-skill-group="2"],
+.skills-scope:has(.skill-chip[data-group="3"]:hover) [data-skill-group="3"] {
+  opacity: 1;
+}
+
+.skills-scope:has(.skill-group[data-skill-group="0"]:hover)
+  .skill-chip[data-group="0"],
+.skills-scope:has(.skill-group[data-skill-group="1"]:hover)
+  .skill-chip[data-group="1"],
+.skills-scope:has(.skill-group[data-skill-group="2"]:hover)
+  .skill-chip[data-group="2"],
+.skills-scope:has(.skill-group[data-skill-group="3"]:hover)
+  .skill-chip[data-group="3"] {
+  border-color: var(--chip-color);
+  color: var(--chip-color);
+  box-shadow: 0 0 14px color-mix(in srgb, var(--chip-color) 55%, transparent);
+}
+
+/* Project glyphs — small looping illustrations at the top of each project card */
+.project-glyph {
+  overflow: hidden;
+  border-bottom: 1px solid var(--border);
+  background: var(--background);
+}
+
+.project-glyph * {
+  animation-play-state: paused;
+}
+
+.project-glyph.is-running * {
+  animation-play-state: running;
+}
+
+.project-glyph-faded svg {
+  mask-image: linear-gradient(
+    90deg,
+    transparent,
+    #000 14%,
+    #000 86%,
+    transparent
+  );
+}
+
+/* Listings: the sweep takes 4s to cross the 400-unit canvas; each listing's
+   delay is set inline so it reacts as the line passes over it. */
+.glyph-scan {
+  transform: translateX(-50px);
+  animation: glyph-scan 4s linear infinite;
+}
+
+@keyframes glyph-scan {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(400px);
+  }
+}
+
+.glyph-listing {
+  stroke: var(--border);
+  animation: glyph-listing 4s linear infinite;
+}
+
+@keyframes glyph-listing {
+  0% {
+    stroke: var(--foreground);
+  }
+  14%,
+  100% {
+    stroke: var(--border);
+  }
+}
+
+.glyph-listing-match {
+  stroke: var(--accent);
+  fill: rgba(0, 227, 154, 0.14);
+  animation: glyph-listing-match 4s linear infinite;
+}
+
+@keyframes glyph-listing-match {
+  0%,
+  62% {
+    stroke: var(--accent);
+    fill: rgba(0, 227, 154, 0.14);
+  }
+  80%,
+  99% {
+    stroke: var(--border);
+    fill: rgba(0, 227, 154, 0);
+  }
+}
+
+/* Try-on: the garment travels from the rail and is fitted onto the figure */
+.glyph-garment {
+  transform: translate(178px, 24px);
+  animation: glyph-garment 5s ease-in-out infinite;
+}
+
+@keyframes glyph-garment {
+  0% {
+    transform: translate(121px, 18px) scale(0.5);
+    opacity: 0;
+  }
+  8% {
+    transform: translate(121px, 18px) scale(0.5);
+    opacity: 1;
+  }
+  38%,
+  86% {
+    transform: translate(178px, 24px) scale(1);
+    opacity: 1;
+  }
+  96%,
+  100% {
+    transform: translate(178px, 24px) scale(1);
+    opacity: 0;
+  }
+}
+
+.glyph-knob {
+  animation: glyph-knob 3.2s ease-in-out infinite alternate;
+}
+
+.glyph-knob-0 {
+  --travel: 52px;
+}
+
+.glyph-knob-1 {
+  --travel: 22px;
+  animation-duration: 4.1s;
+}
+
+.glyph-knob-2 {
+  --travel: 64px;
+  animation-duration: 2.7s;
+}
+
+@keyframes glyph-knob {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(var(--travel));
+  }
+}
+
+/* Gait: the traces repeat every 80 units, so shifting by one period loops */
+.glyph-stream {
+  animation: glyph-stream 1.6s linear infinite;
+}
+
+@keyframes glyph-stream {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-80px);
+  }
+}
+
+.glyph-window {
+  animation: glyph-window 1.6s ease-in-out infinite;
+}
+
+@keyframes glyph-window {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Malware: a 3x3 kernel steps across the byte image, feeding the stages */
+.glyph-kernel {
+  animation: glyph-kernel 4.8s steps(12) infinite alternate;
+}
+
+@keyframes glyph-kernel {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(168px);
+  }
+}
+
+.glyph-flagged {
+  animation: glyph-flagged 1.8s ease-in-out infinite;
+}
+
+@keyframes glyph-flagged {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+.glyph-stage {
+  opacity: 0.12;
+  animation: glyph-stage 2.1s ease-in-out infinite;
+}
+
+@keyframes glyph-stage {
+  0%,
+  100% {
+    opacity: 0.08;
+  }
+  30% {
+    opacity: 0.5;
+  }
+}
+
+.glyph-verdict {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: glyph-verdict 2.1s ease-in-out 1.05s infinite;
+}
+
+@keyframes glyph-verdict {
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  40% {
+    opacity: 1;
+    transform: scale(1.3);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-glyph * {
+    animation: none !important;
+  }
+}
+
+/* Cursor reticle — trails the pointer, locks on over anything clickable */
+.cursor-reticle {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 150;
+  width: 28px;
+  height: 28px;
+  margin: -14px 0 0 -14px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  will-change: transform;
+}
+
+.cursor-reticle[data-visible="true"] {
+  opacity: 1;
+}
+
+.cursor-reticle-box {
+  position: absolute;
+  inset: 0;
+  color: rgba(244, 244, 242, 0.45);
+  /* A dark edge keeps the brackets legible over accent-filled buttons. */
+  filter: drop-shadow(0 0 1.5px rgba(0, 0, 0, 0.9));
+  transition:
+    transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
+    color 0.2s ease;
+}
+
+.cursor-reticle-box i {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  border: 0 solid currentColor;
+}
+
+.cursor-reticle-box i:nth-child(1) {
+  top: 0;
+  left: 0;
+  border-top-width: 1.5px;
+  border-left-width: 1.5px;
+}
+
+.cursor-reticle-box i:nth-child(2) {
+  top: 0;
+  right: 0;
+  border-top-width: 1.5px;
+  border-right-width: 1.5px;
+}
+
+.cursor-reticle-box i:nth-child(3) {
+  bottom: 0;
+  right: 0;
+  border-bottom-width: 1.5px;
+  border-right-width: 1.5px;
+}
+
+.cursor-reticle-box i:nth-child(4) {
+  bottom: 0;
+  left: 0;
+  border-bottom-width: 1.5px;
+  border-left-width: 1.5px;
+}
+
+.cursor-reticle[data-active="true"] .cursor-reticle-box {
+  color: var(--accent);
+  transform: rotate(45deg) scale(1.35);
+}
+
+.cursor-reticle[data-pressed="true"] .cursor-reticle-box {
+  transform: scale(0.7);
+}
+
+.cursor-reticle[data-active="true"][data-pressed="true"] .cursor-reticle-box {
+  transform: rotate(45deg) scale(0.95);
+}
+
+@media (hover: none), (pointer: coarse) {
+  .cursor-reticle {
+    display: none;
+  }
+}

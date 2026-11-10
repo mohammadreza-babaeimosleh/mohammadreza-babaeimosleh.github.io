@@ -1,5 +1,7 @@
+import type { CSSProperties } from "react";
 import Reveal from "./Reveal";
 import SkillsOrbit3D from "./SkillsOrbit3D";
+import { SKILL_GROUP_COLORS, SKILL_GROUPS } from "@/lib/skillGroups";
 
 const SKILLS: { group: string; items: string[] }[] = [
   {
@@ -63,7 +65,7 @@ export default function About() {
           </h2>
         </Reveal>
 
-        <div className="mt-10 grid gap-12 md:grid-cols-[1.1fr_1fr]">
+        <div className="skills-scope mt-10 grid gap-12 md:grid-cols-[1.1fr_1fr]">
           <Reveal delay={100}>
             <div className="space-y-5 text-muted-foreground">
               <p>
@@ -98,8 +100,18 @@ export default function About() {
           <Reveal delay={200}>
             <div className="grid gap-6 sm:grid-cols-2">
               {SKILLS.map((group) => (
-                <div key={group.group}>
-                  <h3 className="font-mono text-[11px] uppercase tracking-widest text-accent">
+                <div
+                  key={group.group}
+                  data-skill-group={SKILL_GROUPS.indexOf(group.group)}
+                  className="skill-group"
+                  style={
+                    {
+                      "--chip-color": SKILL_GROUP_COLORS[group.group],
+                    } as CSSProperties
+                  }
+                >
+                  <h3 className="skill-group-title flex items-center gap-2 font-mono text-[11px] uppercase tracking-widest">
+                    <span aria-hidden className="skill-group-marker" />
                     {group.group}
                   </h3>
                   <ul className="mt-3 space-y-2">

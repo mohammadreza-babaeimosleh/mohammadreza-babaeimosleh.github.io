@@ -1,4 +1,6 @@
 import Reveal from "./Reveal";
+import CircuitBackground from "./CircuitBackground";
+import CopyButton from "./CopyButton";
 import { SITE } from "@/lib/site";
 
 const LINKS = [
@@ -24,7 +26,8 @@ const LINKS = [
 
 export default function Contact() {
   return (
-    <section id="contact">
+    <section id="contact" className="relative isolate overflow-hidden">
+      <CircuitBackground />
       <div className="mx-auto max-w-6xl px-6 py-20 md:py-28">
         <Reveal>
           <p className="font-mono text-xs uppercase tracking-widest text-accent">
@@ -46,7 +49,7 @@ export default function Contact() {
             {LINKS.map((link) => (
               <li
                 key={link.label}
-                className="border-b border-border sm:border-r sm:last:border-r-0"
+                className="relative border-b border-border sm:border-r sm:last:border-r-0"
               >
                 <a
                   href={link.href}
@@ -64,6 +67,13 @@ export default function Contact() {
                     )}
                   </p>
                 </a>
+                {!link.external && (
+                  <CopyButton
+                    value={link.value}
+                    label="Copy email address"
+                    className="absolute right-4 top-5"
+                  />
+                )}
               </li>
             ))}
           </ul>

@@ -7,6 +7,7 @@ import {
   useSpring,
 } from "motion/react";
 import { useState, type MouseEvent } from "react";
+import ProjectGlyph, { type GlyphKind } from "./ProjectGlyph";
 
 type Project = {
   title: string;
@@ -16,11 +17,13 @@ type Project = {
   bullets: string[];
   tags: string[];
   link?: string;
+  glyph: GlyphKind;
 };
 
 const PROJECTS: Project[] = [
   {
     title: "PropertyGPT",
+    glyph: "listings",
     period: "Jun 2023 — Jun 2026",
     status: "Production",
     link: "https://propertygpt.com",
@@ -36,6 +39,7 @@ const PROJECTS: Project[] = [
   },
   {
     title: "BeforeAI.io",
+    glyph: "try-on",
     period: "2026",
     status: "Production",
     link: "https://beforeai.io",
@@ -50,6 +54,7 @@ const PROJECTS: Project[] = [
   },
   {
     title: "WearGait-PD",
+    glyph: "gait",
     period: "2025 — Present",
     status: "Paper in preparation",
     description:
@@ -67,6 +72,7 @@ const PROJECTS: Project[] = [
   },
   {
     title: "IoT Malware Classification",
+    glyph: "malware",
     period: "2024",
     status: "Published",
     link: "https://www.sciencedirect.com/science/article/pii/S0167739X24001237",
@@ -145,6 +151,10 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
         aria-hidden
         className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
         style={{ background }}
+      />
+      <ProjectGlyph
+        kind={project.glyph}
+        className="relative -mx-6 -mt-6 mb-6 md:-mx-8 md:-mt-8 md:mb-8"
       />
       <div
         className="relative"

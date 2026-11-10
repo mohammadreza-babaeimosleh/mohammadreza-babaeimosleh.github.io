@@ -107,21 +107,23 @@ export default function Hero() {
       </Spotlight>
 
       <Reveal>
-        <dl className="grid grid-cols-3 divide-x divide-border border-t border-border">
-          {STATS.map((stat) => (
-            <div
-              key={stat.label}
-              className="px-6 py-3 text-center md:text-left"
-            >
-              <dt className="font-display text-2xl font-bold sm:text-3xl">
-                <NumberTicker value={stat.value} />
-              </dt>
-              <dd className="mt-1 font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
-                {stat.label}
-              </dd>
-            </div>
-          ))}
-        </dl>
+        <div className="border-t border-border">
+          <dl className="mx-auto grid max-w-6xl grid-cols-3 divide-x divide-border">
+            {STATS.map((stat) => (
+              <div
+                key={stat.label}
+                className="px-6 py-3 text-center md:text-left"
+              >
+                <dt className="font-display text-2xl font-bold sm:text-3xl">
+                  <NumberTicker value={stat.value} />
+                </dt>
+                <dd className="mt-1 font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
+                  {stat.label}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </div>
       </Reveal>
     </section>
   );

@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import Nav from "@/components/Nav";
 import CommandPalette from "@/components/CommandPalette";
+import CursorReticle from "@/components/CursorReticle";
 import { SITE } from "@/lib/site";
 
 const DESCRIPTION =
@@ -70,6 +71,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <Nav />
         {children}
         <CommandPalette />
+        <CursorReticle />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(STRUCTURED_DATA) }}

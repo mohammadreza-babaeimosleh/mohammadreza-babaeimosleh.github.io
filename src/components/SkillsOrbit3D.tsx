@@ -32,6 +32,7 @@ import {
   SiPostgresql,
 } from "react-icons/si";
 import { FaAws } from "react-icons/fa6";
+import { SKILL_GROUP_COLORS } from "@/lib/skillGroups";
 
 type IconType = ComponentType<{ className?: string }>;
 
@@ -52,7 +53,7 @@ const TILT_DEG = 68;
 const RINGS: OrbitRing[] = [
   {
     group: "Languages",
-    color: "#60a5fa",
+    color: SKILL_GROUP_COLORS["Languages"],
     items: [
       { label: "Python", Icon: SiPython },
       { label: "TypeScript", Icon: SiTypescript },
@@ -66,7 +67,7 @@ const RINGS: OrbitRing[] = [
   },
   {
     group: "AI & ML",
-    color: "#c084fc",
+    color: SKILL_GROUP_COLORS["AI & ML"],
     items: [
       { label: "LangChain", Icon: SiLangchain },
       { label: "LlamaIndex", Icon: Layers },
@@ -81,7 +82,7 @@ const RINGS: OrbitRing[] = [
   },
   {
     group: "Infrastructure",
-    color: "#fb923c",
+    color: SKILL_GROUP_COLORS["Infrastructure"],
     items: [
       { label: "GCP", Icon: SiGooglecloud },
       { label: "AWS", Icon: FaAws },
@@ -96,7 +97,7 @@ const RINGS: OrbitRing[] = [
   },
   {
     group: "Signal & Embedded",
-    color: "#f472b6",
+    color: SKILL_GROUP_COLORS["Signal & Embedded"],
     items: [
       { label: "Signal Processing", Icon: AudioWaveform },
       { label: "Time-Series Analysis", Icon: TrendingUp },
@@ -147,7 +148,7 @@ export default function SkillsOrbit3D() {
             <Code2 className="h-4 w-4 text-accent" aria-hidden />
           </div>
 
-          {RINGS.map((ring) => (
+          {RINGS.map((ring, ringIndex) => (
             <div
               key={ring.group}
               className="pointer-events-none absolute inset-0"
@@ -172,7 +173,8 @@ export default function SkillsOrbit3D() {
                 >
                   <div
                     aria-hidden
-                    className="pointer-events-none absolute inset-0 rounded-full border border-dashed"
+                    data-group={ringIndex}
+                    className="ring-outline pointer-events-none absolute inset-0 rounded-full border border-dashed"
                     style={{ borderColor: `${ring.color}4d` }}
                   />
 
@@ -234,10 +236,11 @@ export default function SkillsOrbit3D() {
                                     "--chip-color": ring.color,
                                   } as CSSProperties
                                 }
+                                data-group={ringIndex}
                                 title={item.label}
                                 aria-label={item.label}
                                 role="img"
-                                className="skill-chip h-8 w-8 items-center justify-center rounded-md border bg-background/90 backdrop-blur-sm"
+                                className="skill-chip h-8 w-8 items-center justify-center rounded-md border bg-background"
                               >
                                 <Icon className="h-4 w-4" />
                               </span>
@@ -255,8 +258,12 @@ export default function SkillsOrbit3D() {
       </div>
 
       <div className="mt-5 flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
-        {RINGS.map((ring) => (
-          <div key={ring.group} className="flex items-center gap-1.5">
+        {RINGS.map((ring, ringIndex) => (
+          <div
+            key={ring.group}
+            data-skill-group={ringIndex}
+            className="skill-group flex cursor-default items-center gap-1.5"
+          >
             <span
               aria-hidden
               className="h-2 w-2 rounded-full"
