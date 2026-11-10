@@ -10,7 +10,7 @@ import LocationGlobe from "./LocationGlobe";
 import { GLOBE_LOCATIONS } from "@/lib/globeLocations";
 
 const STATS = [
-  { value: "3+", label: "Work Experience" },
+  { value: "3+", label: "Years of Work Experience" },
   { value: "M2", label: "Education Level" },
   { value: "2", label: "Papers" },
 ];
